@@ -64,6 +64,14 @@ import {
   Builds,
 } from '@openchoreo/backstage-plugin';
 
+
+import {
+  EntityJenkinsContent,
+  EntityLatestJenkinsRunCard,
+  isJenkinsAvailable,
+} from '@backstage-community/plugin-jenkins';
+
+
 const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
@@ -147,6 +155,21 @@ const overviewContent = (
     <Grid item md={8} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
+    <EntitySwitch>
+      <EntitySwitch.Case if={isJenkinsAvailable}>
+        <Grid item sm={6}>
+          <EntityLatestJenkinsRunCard
+            branch="main,master"
+            variant="gridItem"
+          />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+    <EntitySwitch>
+      <EntitySwitch.Case if={isJenkinsAvailable}>
+        <EntityJenkinsContent />
+      </EntitySwitch.Case>
+    </EntitySwitch>
   </Grid>
 );
 
