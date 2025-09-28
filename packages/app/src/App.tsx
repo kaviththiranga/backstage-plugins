@@ -1,4 +1,4 @@
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import {
   CatalogEntityPage,
@@ -42,6 +42,7 @@ import {
   OpenChoreoIcon,
   openChoreoTheme,
 } from '@openchoreo/backstage-design-system';
+import { ChoreoHomePage } from '@openchoreo/backstage-plugin';
 import { UnifiedThemeProvider } from '@backstage/theme';
 
 const app = createApp({
@@ -81,7 +82,7 @@ const app = createApp({
 
 const routes = (
   <FlatRoutes>
-    <Route path="/" element={<Navigate to="catalog" />} />
+    <Route path="/*" element={<ChoreoHomePage />} />
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"

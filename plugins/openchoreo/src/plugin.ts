@@ -5,10 +5,14 @@ import {
 import {
   rootCatalogEnvironmentRouteRef,
   rootCatalogRuntimeLogsRouteRef,
+  homeRouteRef,
 } from './routes';
 
 export const choreoPlugin = createPlugin({
   id: 'openchoreo',
+  routes: {
+    root: homeRouteRef,
+  },
 });
 
 // Component page tab
@@ -38,5 +42,15 @@ export const RuntimeLogs = choreoPlugin.provide(
     component: () =>
       import('./components/RuntimeLogs/RuntimeLogs').then(m => m.RuntimeLogs),
     mountPoint: rootCatalogRuntimeLogsRouteRef,
+  }),
+);
+
+// Home page with hierarchical navigation
+export const ChoreoHomePage = choreoPlugin.provide(
+  createRoutableExtension({
+    name: 'ChoreoHomePage',
+    component: () =>
+      import('./components/HomePage/HomePage.routes').then(m => m.HomePageRoutes),
+    mountPoint: homeRouteRef,
   }),
 );
