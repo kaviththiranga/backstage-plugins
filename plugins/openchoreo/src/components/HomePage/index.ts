@@ -1,5 +1,5 @@
 export { HomePage } from './HomePage';
-export { HomePageOverview } from './HomePageOverview';
-export { OrganizationOverview } from './OrganizationOverview';
-export { ProjectOverview } from './ProjectOverview';
-export { ComponentOverview } from './ComponentOverview';
+export { HomePageOverview } from './components/HomePageOverview';
+export { OrganizationOverview } from './components/OrganizationOverview';
+export { ProjectOverview } from './components/ProjectOverview';
+export { ComponentOverview } from './components/ComponentOverview';

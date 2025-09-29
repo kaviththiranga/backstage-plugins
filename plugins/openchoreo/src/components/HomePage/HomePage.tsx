@@ -8,6 +8,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import { EntityProvider } from '@backstage/plugin-catalog-react';
 // Removed useRouteRef as we'll use direct navigation
 import {
   HierarchicalBreadcrumb,
@@ -17,10 +18,10 @@ import {
   getComponentMenuItems,
 } from '@openchoreo/backstage-design-system';
 import { useEntityHierarchy, useSelectedEntities } from '../../hooks/useEntityHierarchy';
-import { HomePageOverview } from './HomePageOverview';
-import { OrganizationOverview } from './OrganizationOverview';
-import { ProjectOverview } from './ProjectOverview';
-import { ComponentOverview } from './ComponentOverview';
+import { HomePageOverview } from './components/HomePageOverview';
+import { OrganizationOverview } from './components/OrganizationOverview';
+import { ProjectOverview } from './components/ProjectOverview';
+import { ComponentOverview } from './components/ComponentOverview';
 // Routes will be handled with direct navigation
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -223,32 +224,38 @@ export const HomePage: React.FC = () => {
 
     if (filters.selectedComponent && selectedEntities.component) {
       return (
-        <ComponentOverview
-          component={selectedEntities.component}
-          selectedMenuItem={selectedMenuItem}
-        />
+        <EntityProvider entity={selectedEntities.component}>
+          <ComponentOverview
+            component={selectedEntities.component}
+            selectedMenuItem={selectedMenuItem}
+          />
+        </EntityProvider>
       );
     }
 
     if (filters.selectedProject && selectedEntities.project) {
       return (
-        <ProjectOverview
-          project={selectedEntities.project}
-          components={components}
-          selectedMenuItem={selectedMenuItem}
-          onComponentClick={handleComponentClick}
-        />
+        <EntityProvider entity={selectedEntities.project}>
+          <ProjectOverview
+            project={selectedEntities.project}
+            components={components}
+            selectedMenuItem={selectedMenuItem}
+            onComponentClick={handleComponentClick}
+          />
+        </EntityProvider>
       );
     }
 
     if (filters.selectedOrganization && selectedEntities.organization) {
       return (
-        <OrganizationOverview
-          organization={selectedEntities.organization}
-          projects={projects}
-          selectedMenuItem={selectedMenuItem}
-          onProjectClick={handleProjectClick}
-        />
+        <EntityProvider entity={selectedEntities.organization}>
+          <OrganizationOverview
+            organization={selectedEntities.organization}
+            projects={projects}
+            selectedMenuItem={selectedMenuItem}
+            onProjectClick={handleProjectClick}
+          />
+        </EntityProvider>
       );
     }
 
