@@ -10660,7 +10660,15 @@ __metadata:
   resolution: "@openchoreo/backstage-design-system@workspace:packages/design-system"
   dependencies:
     "@backstage/cli": "npm:^0.32.0"
+    "@backstage/theme": "npm:^0.6.5"
+    "@material-ui/core": "npm:^4.12.2"
+    "@material-ui/icons": "npm:^4.9.1"
     "@testing-library/jest-dom": "npm:^6.0.0"
+    react: "npm:^18.0.2"
+  peerDependencies:
+    "@material-ui/core": ^4.12.2
+    "@material-ui/icons": ^4.9.1
+    react: ^18.0.2
   languageName: unknown
   linkType: soft
 
@@ -10746,6 +10754,7 @@ __metadata:
     "@material-ui/core": "npm:^4.9.13"
     "@material-ui/icons": "npm:^4.11.3"
     "@material-ui/lab": "npm:^4.0.0-alpha.61"
+    "@openchoreo/backstage-design-system": "workspace:^"
     "@openchoreo/backstage-plugin-api": "npm:^0.2.0"
     "@testing-library/dom": "npm:^9.0.0"
     "@testing-library/jest-dom": "npm:^6.0.0"
@@ -10762,6 +10771,7 @@ __metadata:
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
+    react-router-dom: ^6.3.0
   languageName: unknown
   linkType: soft
 

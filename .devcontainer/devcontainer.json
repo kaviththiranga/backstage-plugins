@@ -1,0 +1,89 @@
+{
+  "name": "OpenChoreo Backstage Plugins",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-eslint",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode.vscode-docker",
+        "ms-playwright.playwright",
+        "ms-vscode.test-adapter-converter",
+        "hbenl.vscode-test-explorer",
+        "ms-vscode.vscode-jest",
+        "ms-vscode.vscode-npm-scripts",
+        "christian-kohler.path-intellisense",
+        "ms-vscode.vscode-json",
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "typescript.preferences.importModuleSpecifier": "relative",
+        "typescript.suggest.autoImports": true,
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "eslint.workingDirectories": [
+          "packages/*",
+          "plugins/*"
+        ],
+        "prettier.configPath": ".prettierrc.js",
+        "files.associations": {
+          "*.yaml": "yaml",
+          "*.yml": "yaml"
+        },
+        "yaml.schemas": {
+          "https://raw.githubusercontent.com/backstage/backstage/master/packages/config-loader/schema/app-config.schema.json": [
+            "app-config*.yaml",
+            "app-config*.yml"
+          ]
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash",
+            "args": ["-l"]
+          }
+        }
+      }
+    }
+  },
+  "forwardPorts": [3000, 7007],
+  "portsAttributes": {
+    "3000": {
+      "label": "Backstage Frontend",
+      "onAutoForward": "notify"
+    },
+    "7007": {
+      "label": "Backstage Backend API",
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "remoteUser": "node",
+  "mounts": [
+    "source=${localWorkspaceFolder}/.yarn,target=/workspace/.yarn,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/.yarnrc.yml,target=/workspace/.yarnrc.yml,type=bind,consistency=cached"
+  ],
+  "containerEnv": {
+    "NODE_ENV": "development",
+    "NODE_OPTIONS": "--max-old-space-size=4096"
+  }
+}
+

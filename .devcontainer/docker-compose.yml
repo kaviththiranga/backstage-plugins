@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      # Mount the workspace
+      - ../:/workspace:cached
+      # Mount Yarn cache for faster installs
+      - yarn-cache:/home/node/.cache/yarn
+    ports:
+      - "3000:3000"  # Frontend
+      - "7007:7007"  # Backend API
+    environment:
+      - NODE_ENV=development
+      - NODE_OPTIONS=--max-old-space-size=4096
+      - YARN_ENABLE_IMMUTABLE_INSTALLS=false
+      - OPENCHOREO_API_URL=http://host.docker.internal:8081/api/v1
+    working_dir: /workspace
+    command: sleep infinity
+    extra_hosts:
+      - "host.docker.internal:172.30.0.1" 
+    networks:
+      - backstage-network
+
+  # Optional: Add a database service if needed for testing
+  # postgres:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_DB: backstage_plugin_test
+  #     POSTGRES_USER: backstage
+  #     POSTGRES_PASSWORD: backstage
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres-data:/var/lib/postgresql/data
+  #   networks:
+  #     - backstage-network
+
+volumes:
+  yarn-cache:
+  # postgres-data:
+
+networks:
+  backstage-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+          gateway: 172.30.0.1
+
