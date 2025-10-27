@@ -1,5 +1,17 @@
 # OpenChoreo Backstage Plugins
 
+> **⚠️ DEPRECATED - This repository has been archived**
+>
+> This repository has been migrated to the [openchoreo/openchoreo](https://github.com/openchoreo/openchoreo) monorepo under the `ui/` directory.
+>
+> - **New Location:** [github.com/openchoreo/openchoreo/tree/main/ui](https://github.com/openchoreo/openchoreo/tree/main/ui)
+> - **Issues & PRs:** Please open all new issues and pull requests in the [openchoreo/openchoreo](https://github.com/openchoreo/openchoreo) repository
+> - **Migration Date:** October 2025
+>
+> All git history has been preserved in the migration.
+
+---
+
 This repository contains Backstage plugins for integrating with [OpenChoreo](https://openchoreo.dev), providing a developer portal for cloud-native application management, deployment visualization, and observability.
 
 ## Features
