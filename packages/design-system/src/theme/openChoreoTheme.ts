@@ -431,5 +431,78 @@ export const openChoreoTheme = createUnifiedTheme({
         },
       },
     },
+    // Scaffolder-specific styling
+    MuiStepper: {
+      styleOverrides: {
+        root: {
+          padding: '24px',
+          backgroundColor: colors.indigo[50],
+          borderRadius: 12,
+          marginBottom: '32px',
+        },
+      },
+    },
+    MuiStepLabel: {
+      styleOverrides: {
+        label: {
+          fontSize: 16,
+          fontWeight: 500,
+          '&.Mui-active': {
+            fontWeight: 600,
+            color: colors.primary.dark,
+          },
+          '&.Mui-completed': {
+            fontWeight: 500,
+            color: colors.secondary.dark,
+          },
+        },
+      },
+    },
+    MuiStepIcon: {
+      styleOverrides: {
+        root: {
+          '&.Mui-active': {
+            color: colors.primary.main,
+          },
+          '&.Mui-completed': {
+            color: colors.success.main,
+          },
+        },
+        text: {
+          fontWeight: 600,
+        },
+      },
+    },
+    MuiStepConnector: {
+      styleOverrides: {
+        line: {
+          borderColor: colors.grey[200],
+          borderTopWidth: 2,
+        },
+      },
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          marginTop: 6,
+          fontSize: 13,
+          lineHeight: 1.5,
+          color: colors.secondary.main,
+          '&.Mui-error': {
+            color: colors.error.main,
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: 14,
+          fontWeight: 500,
+          color: colors.secondary.dark,
+          marginBottom: 4,
+        },
+      },
+    },
   },
 });

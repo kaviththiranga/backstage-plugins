@@ -11,6 +11,8 @@ spec:
   type: component
   parameters:
     - title: Component Metadata
+      description: Define the basic information about your component
+      ui:ObjectFieldTemplate: TwoColumn
       required:
         - organization_name
         - project_name
@@ -20,51 +22,82 @@ spec:
         component_name:
           title: Component Name
           type: string
-          description: Name of the component
+          description: Unique identifier for the component (lowercase, alphanumeric, hyphens allowed)
           ui:field: EntityNamePicker
+          ui:help: 'Example: my-api-service, user-auth-component'
+          ui:options:
+            grid:
+              xs: 12
+              md: 6
         displayName:
           title: Display Name
           type: string
-          description: Display name of the component
+          description: Human-readable name shown in the UI
+          ui:help: 'Example: User Authentication Service'
+          ui:options:
+            grid:
+              xs: 12
+              md: 6
         description:
           title: Description
           type: string
-          description: Help others understand what this component is for.
-        project_name:
-          title: Project Name
-          type: string
-          description: OpenChoreo project name
-          ui:field: EntityPicker
+          description: Help others understand what this component is for
+          ui:widget: textarea
           ui:options:
-            catalogFilter:
-              - kind: System
+            rows: 3
+          ui:help: 'Describe the purpose, functionality, and key features of this component'
         organization_name:
           title: Organization Name
           type: string
-          description: Help others understand what this project is for.
+          description: Select the organization that owns this component
           ui:field: EntityPicker
           ui:options:
             catalogFilter:
               - kind: Domain
+            grid:
+              xs: 12
+              md: 6
+          ui:help: 'The organization that will own and manage this component'
+        project_name:
+          title: Project Name
+          type: string
+          description: Select the project where this component belongs
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              - kind: System
+            grid:
+              xs: 12
+              md: 6
+          ui:help: 'The project that groups related components together'
         component_type:
           title: Component Type
           type: string
-          description: Describe the type of component you are creating
+          description: Select the type of component you are creating
           enum:
             - Service
             - WebApplication
             - ScheduledTask
             - APIProxy
+          enumNames:
+            - Service - Backend API or microservice
+            - Web Application - Frontend web application
+            - Scheduled Task - Cron job or scheduled workload
+            - API Proxy - API gateway or proxy service
+          ui:help: 'Choose the type that best matches your component architecture'
 
     - title: CI Setup
+      description: Configure how your component will be built and deployed
+      ui:ObjectFieldTemplate: Section
       required:
         - useBuiltInCI
       properties:
         useBuiltInCI:
           title: Use Built-in CI in OpenChoreo
-          description: OpenChoreo provides built-in CI capabilities for building components. Enable this to use the built-in CI.
+          description: Choose whether to use OpenChoreo's integrated CI/CD pipeline or configure your own external CI system
           type: boolean
           ui:widget: radio
+          ui:help: 'Built-in CI provides automatic builds using Argo Workflows. External CI allows you to use your own CI/CD tools (GitHub Actions, GitLab CI, etc.)'
 
       dependencies:
         useBuiltInCI:
@@ -78,18 +111,31 @@ spec:
                   repo_url:
                     title: Repository URL
                     type: string
-                    description: GitHub repository URL (e.g., https://github.com/username/repository)
+                    description: GitHub repository URL containing your component source code
                     pattern: '^https://github\.com/[^/]+/[^/]+/?$'
+                    ui:help: 'Must be a valid GitHub URL: https://github.com/owner/repository'
+                    ui:placeholder: 'https://github.com/my-org/my-component'
                   branch:
                     title: Branch Name
                     type: string
-                    description: The branch of the repository to use for the component.
+                    description: Git branch to use for building the component
                     default: main
+                    ui:help: 'Common values: main, master, develop'
+                    ui:options:
+                      grid:
+                        xs: 12
+                        md: 6
                   component_path:
                     title: Component Path
                     type: string
-                    description: The path within the repository where the component's source code is located.
+                    description: Path to component source code within the repository
                     default: .
+                    ui:help: 'Use "." for root directory or specify subdirectory (e.g., "services/api")'
+                    ui:placeholder: '.'
+                    ui:options:
+                      grid:
+                        xs: 12
+                        md: 6
                   # build_engine:
                   #   title: Build Engine
                   #   type: string
@@ -98,15 +144,17 @@ spec:
                   #   enum:
                   #     - argo
                   build_template_name:
-                    title: Argo Workflows Build Template Name
+                    title: Build Template
                     type: string
-                    description: Name of the Argo Workflow build template to use
+                    description: Argo Workflows template for building your component
                     ui:field: BuildTemplatePicker
+                    ui:help: 'Select a build template based on your component technology stack. Templates are specific to your organization.'
                   build_parameters:
-                    title: Build Template Parameters
+                    title: Build Configuration
                     type: object
-                    description: Parameters specific to the selected build template
+                    description: Additional parameters required by the selected build template
                     ui:field: BuildTemplateParameters
+                    ui:help: 'These parameters are dynamically loaded based on your selected build template'
                 required:
                   - build_template_name
                   - repo_url
@@ -122,9 +170,15 @@ spec:
                     type: 'null'
                     ui:widget: markdown
                     description: |
-                      ## Configure your CI
+                      ## Configure External CI
 
-                      This section contains details for configuring your CI pipeline to notify OpenChoreo for each build.
+                      You've chosen to use your own CI/CD system. After creating this component, you'll need to:
+
+                      1. Configure your CI pipeline (GitHub Actions, GitLab CI, Jenkins, etc.)
+                      2. Set up build notifications to OpenChoreo
+                      3. Configure deployment webhooks
+
+                      Refer to the [OpenChoreo CI Integration Guide](https://docs.openchoreo.dev) for detailed instructions.
   steps:
     - id: create-openchoreo-component
       name: Create OpenChoreo Component

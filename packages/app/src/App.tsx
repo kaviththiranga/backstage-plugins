@@ -10,9 +10,14 @@ import {
   catalogImportPlugin,
 } from '@backstage/plugin-catalog-import';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
-import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
+import { ScaffolderFieldExtensions, ScaffolderLayouts } from '@backstage/plugin-scaffolder-react';
 import { BuildTemplatePickerFieldExtension } from './scaffolder/BuildTemplatePicker';
 import { BuildTemplateParametersFieldExtension } from './scaffolder/BuildTemplateParameters';
+import {
+  TwoColumnLayoutExtension,
+  CardGroupLayoutExtension,
+  SectionLayoutExtension,
+} from './scaffolder/layouts/extensions';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 import {
@@ -123,6 +128,11 @@ const routes = (
         <BuildTemplatePickerFieldExtension />
         <BuildTemplateParametersFieldExtension />
       </ScaffolderFieldExtensions>
+      <ScaffolderLayouts>
+        <TwoColumnLayoutExtension />
+        <CardGroupLayoutExtension />
+        <SectionLayoutExtension />
+      </ScaffolderLayouts>
     </Route>
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
