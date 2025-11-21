@@ -80,6 +80,7 @@ interface ReleaseBinding {
   name: string;
   environment: string;
   componentTypeEnvOverrides?: any;
+  traitOverrides?: any;
   workloadOverrides?: any;
 }
 
@@ -131,10 +132,10 @@ export const EnvironmentOverridesDialog: React.FC<
 
       if (schemaResponse.success && schemaResponse.data) {
         // The API returns a wrapped schema with properties
-        // Extract componentTypeEnvOverrides and traitEnvOverrides from properties
+        // Extract componentTypeEnvOverrides and traitOverrides from properties
         const wrappedSchema = schemaResponse.data as any;
         const componentTypeEnvOverrides = wrappedSchema.properties?.componentTypeEnvOverrides;
-        const traitEnvOverrides = wrappedSchema.properties?.traitEnvOverrides;
+        const traitOverrides = wrappedSchema.properties?.traitOverrides;
 
         // Set component-type schema
         if (componentTypeEnvOverrides) {
@@ -142,9 +143,9 @@ export const EnvironmentOverridesDialog: React.FC<
         }
 
         // Set trait schemas
-        if (traitEnvOverrides && traitEnvOverrides.properties) {
+        if (traitOverrides && traitOverrides.properties) {
           const traitSchemas: Record<string, JSONSchema7> = {};
-          Object.entries(traitEnvOverrides.properties).forEach(([traitName, schema]) => {
+          Object.entries(traitOverrides.properties).forEach(([traitName, schema]) => {
             traitSchemas[traitName] = schema as JSONSchema7;
           });
           setTraitSchemasMap(traitSchemas);
@@ -179,10 +180,8 @@ export const EnvironmentOverridesDialog: React.FC<
           setComponentTypeFormData(componentOverrides);
           setInitialComponentTypeFormData(componentOverrides);
 
-          // Load trait overrides (if they exist in workloadOverrides)
-          // Note: Backend may store trait overrides in workloadOverrides or separately
-          // For now, assume they're empty and will be populated when backend is ready
-          const traitOverrides: Record<string, any> = {};
+          // Load trait overrides
+          const traitOverrides = currentBinding.traitOverrides || {};
           setTraitFormDataMap(traitOverrides);
           setInitialTraitFormDataMap(traitOverrides);
         } else {
@@ -236,20 +235,13 @@ export const EnvironmentOverridesDialog: React.FC<
     setError(null);
 
     try {
-      // Merge component-type and trait overrides
-      // TODO: Update when backend supports trait overrides separately
-      // For now, only save component-type overrides
-      const mergedOverrides = {
-        ...componentTypeFormData,
-        // Traits will be added here when backend supports them
-      };
-
       await patchReleaseBindingOverrides(
         entity,
         discovery,
         identityApi,
         environment.name.toLowerCase(),
-        mergedOverrides,
+        componentTypeFormData,
+        traitFormDataMap,
       );
 
       // Overrides saved successfully, backend will automatically redeploy
@@ -288,6 +280,7 @@ export const EnvironmentOverridesDialog: React.FC<
           discovery,
           identityApi,
           environment.name.toLowerCase(),
+          {},
           {},
         );
 
