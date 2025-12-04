@@ -14,7 +14,7 @@ import { EndpointContent } from './EndpointContent';
 import { ConnectionContent } from './ConnectionContent';
 import { CHOREO_ANNOTATIONS } from '@openchoreo/backstage-plugin-common';
 import { Entity } from '@backstage/catalog-model';
-import { useWorkloadContext } from '../WorkloadContext';
+import { useWorkloadContext, type WorkloadTabId } from '../WorkloadContext';
 import { useSecretReferences } from '@openchoreo/backstage-plugin-react';
 import {
   VerticalTabNav,
@@ -52,8 +52,15 @@ function getTabStatus(
 
 export function WorkloadEditor({ entity }: WorkloadEditorProps) {
   const classes = useStyles();
-  const { workloadSpec, setWorkloadSpec, isDeploying, builds, changes } =
-    useWorkloadContext();
+  const {
+    workloadSpec,
+    setWorkloadSpec,
+    isDeploying,
+    builds,
+    changes,
+    activeTab,
+    setActiveTab,
+  } = useWorkloadContext();
   const { secretReferences } = useSecretReferences();
 
   const componentName =
@@ -72,7 +79,6 @@ export function WorkloadEditor({ entity }: WorkloadEditorProps) {
   });
 
   const [workloadType, setWorkloadType] = useState<WorkloadType>('Service');
-  const [activeTab, setActiveTab] = useState('containers');
 
   useEffect(() => {
     if (workloadSpec) {
@@ -369,11 +375,15 @@ export function WorkloadEditor({ entity }: WorkloadEditorProps) {
     [containerCount, endpointCount, connectionCount, changes],
   );
 
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId as WorkloadTabId);
+  };
+
   return (
     <VerticalTabNav
       tabs={tabs}
       activeTabId={activeTab}
-      onChange={setActiveTab}
+      onChange={handleTabChange}
       className={classes.tabNav}
     >
       {activeTab === 'containers' && (

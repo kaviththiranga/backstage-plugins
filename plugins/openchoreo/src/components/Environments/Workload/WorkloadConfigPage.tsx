@@ -14,12 +14,13 @@ import {
 } from '@openchoreo/backstage-plugin-common';
 import { applyWorkload, fetchWorkloadInfo } from '../../../api/workloadInfo';
 import { createComponentRelease } from '../../../api/environments';
-import { WorkloadProvider } from './WorkloadContext';
+import { WorkloadProvider, type WorkloadTabId } from './WorkloadContext';
 import { WorkloadEditor } from './WorkloadEditor';
 import { DetailPageLayout } from '../components/DetailPageLayout';
 import { isFromSourceComponent } from '../../../utils/componentUtils';
 import { useWorkloadChanges } from './hooks/useWorkloadChanges';
 import { WorkloadSaveConfirmationDialog } from './WorkloadSaveConfirmationDialog';
+import { WorkloadReviewDialog } from './WorkloadReviewDialog';
 import { UnsavedChangesDialog } from '../UnsavedChangesDialog';
 
 const useStyles = makeStyles(theme => ({
@@ -68,8 +69,10 @@ export const WorkloadConfigPage = ({
   const [error, setError] = useState<string | null>(null);
   const [builds, setBuilds] = useState<ModelsBuild[]>([]);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [showReviewDialog, setShowReviewDialog] = useState(false);
   const [showUnsavedChangesDialog, setShowUnsavedChangesDialog] =
     useState(false);
+  const [activeTab, setActiveTab] = useState<WorkloadTabId>('containers');
 
   // Calculate changes between initial and current workload
   const changes = useWorkloadChanges(initialWorkload, workloadSpec);
@@ -177,6 +180,11 @@ export const WorkloadConfigPage = ({
     ? builds.some(build => build.image) && !isLoading
     : !isLoading;
 
+  // Calculate section counts for review dialog
+  const containerCount = Object.keys(workloadSpec?.containers || {}).length;
+  const endpointCount = Object.keys(workloadSpec?.endpoints || {}).length;
+  const connectionCount = Object.keys(workloadSpec?.connections || {}).length;
+
   const getAlertMessage = () => {
     if (isFromSource && !hasBuilds) {
       return 'Build your application first to generate a container image.';
@@ -184,13 +192,25 @@ export const WorkloadConfigPage = ({
     return 'Configure your workload to enable deployment.';
   };
 
-  // Handle button click - show confirmation dialog if there are changes
+  // Handle button click - always show review dialog first
   const handleButtonClick = () => {
+    setShowReviewDialog(true);
+  };
+
+  // Handle review dialog proceed - show save confirmation if there are changes
+  const handleReviewProceed = () => {
+    setShowReviewDialog(false);
     if (changes.hasChanges) {
       setShowConfirmDialog(true);
     } else {
       handleNext();
     }
+  };
+
+  // Handle navigating to a specific tab from review dialog
+  const handleNavigateToTab = (tabId: WorkloadTabId) => {
+    setShowReviewDialog(false);
+    setActiveTab(tabId);
   };
 
   // Handle confirmation dialog confirm
@@ -268,10 +288,23 @@ export const WorkloadConfigPage = ({
           setWorkloadSpec={setWorkloadSpec}
           isDeploying={isProcessing || isLoading}
           initialWorkload={initialWorkload}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
         >
           <WorkloadEditor entity={entity} />
         </WorkloadProvider>
       )}
+
+      <WorkloadReviewDialog
+        open={showReviewDialog}
+        onClose={() => setShowReviewDialog(false)}
+        onProceed={handleReviewProceed}
+        onNavigateToTab={handleNavigateToTab}
+        containerCount={containerCount}
+        endpointCount={endpointCount}
+        connectionCount={connectionCount}
+        isProcessing={isProcessing}
+      />
 
       <WorkloadSaveConfirmationDialog
         open={showConfirmDialog}

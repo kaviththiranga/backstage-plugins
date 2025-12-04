@@ -8,6 +8,8 @@ import {
   type WorkloadChanges,
 } from './hooks/useWorkloadChanges';
 
+export type WorkloadTabId = 'containers' | 'endpoints' | 'connections';
+
 interface WorkloadContextType {
   builds: ModelsBuild[];
   workloadSpec: ModelsWorkload | null;
@@ -17,6 +19,10 @@ interface WorkloadContextType {
   initialWorkload: ModelsWorkload | null;
   /** Detected changes between initial and current workload */
   changes: WorkloadChanges;
+  /** Currently active tab in workload editor */
+  activeTab: WorkloadTabId;
+  /** Set the active tab in workload editor */
+  setActiveTab: (tab: WorkloadTabId) => void;
 }
 
 const WorkloadContext = createContext<WorkloadContextType | undefined>(
@@ -31,6 +37,10 @@ export const WorkloadProvider: FC<{
   isDeploying: boolean;
   /** Initial workload data for change comparison */
   initialWorkload?: ModelsWorkload | null;
+  /** Currently active tab in workload editor */
+  activeTab: WorkloadTabId;
+  /** Set the active tab in workload editor */
+  setActiveTab: (tab: WorkloadTabId) => void;
 }> = ({
   builds,
   workloadSpec,
@@ -38,6 +48,8 @@ export const WorkloadProvider: FC<{
   children,
   isDeploying,
   initialWorkload = null,
+  activeTab,
+  setActiveTab,
 }) => {
   // Calculate changes between initial and current workload
   const changes = useWorkloadChanges(initialWorkload, workloadSpec);
@@ -50,6 +62,8 @@ export const WorkloadProvider: FC<{
       isDeploying,
       initialWorkload,
       changes,
+      activeTab,
+      setActiveTab,
     }),
     [
       builds,
@@ -58,6 +72,8 @@ export const WorkloadProvider: FC<{
       isDeploying,
       initialWorkload,
       changes,
+      activeTab,
+      setActiveTab,
     ],
   );
 
@@ -95,4 +111,12 @@ export const useBuilds = () => {
 export const useWorkloadChangesContext = (): WorkloadChanges => {
   const { changes } = useWorkloadContext();
   return changes;
+};
+
+/**
+ * Hook to get and set active tab from context
+ */
+export const useActiveTab = () => {
+  const { activeTab, setActiveTab } = useWorkloadContext();
+  return { activeTab, setActiveTab };
 };
