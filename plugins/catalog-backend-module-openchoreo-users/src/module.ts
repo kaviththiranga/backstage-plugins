@@ -4,6 +4,7 @@ import {
 } from '@backstage/backend-plugin-api';
 import { catalogProcessingExtensionPoint } from '@backstage/plugin-catalog-node/alpha';
 import { ThunderUserGroupEntityProvider } from './provider/ThunderUserGroupEntityProvider';
+import { DefaultThunderTokenService, readThunderAuthConfig } from './auth';
 
 export const catalogModuleOpenchoreoUsers = createBackendModule({
   pluginId: 'catalog',
@@ -30,12 +31,24 @@ export const catalogModuleOpenchoreoUsers = createBackendModule({
           timeout: { seconds: timeout },
         });
 
+        // Create Thunder token service for dynamic token fetching
+        // Reads configuration from thunder.auth.* in app-config.yaml
+        const authConfig = readThunderAuthConfig(config);
+        const tokenService = new DefaultThunderTokenService(logger, authConfig);
+
+        if (!authConfig) {
+          logger.warn(
+            'Thunder admin service account not configured. User/group sync requires thunder.auth.* settings.',
+          );
+        }
+
         // Create and register the Thunder User & Group Entity Provider
-        const provider = new ThunderUserGroupEntityProvider(
+        const provider = new ThunderUserGroupEntityProvider({
           taskRunner,
           logger,
           config,
-        );
+          tokenService,
+        });
 
         catalog.addEntityProvider(provider);
 
