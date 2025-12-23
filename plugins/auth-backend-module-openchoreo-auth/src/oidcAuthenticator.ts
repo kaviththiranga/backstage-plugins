@@ -18,6 +18,17 @@ import syncFetch from 'sync-fetch';
 
 const PSEUDO_REFRESH_PREFIX = 'openchoreo-pseudo-refresh:';
 
+// Module-level logger that can be set from the auth module
+let moduleLogger: LoggerService | undefined;
+
+/**
+ * Sets the logger to be used by the authenticator.
+ * Should be called during auth module initialization.
+ */
+export function setAuthenticatorLogger(logger: LoggerService): void {
+  moduleLogger = logger.child({ component: 'openchoreo-auth' });
+}
+
 /**
  * OIDC Discovery Configuration
  */
@@ -45,9 +56,8 @@ function fetchOIDCDiscoverySync(
   try {
     const response = syncFetch(metadataUrl);
     if (!response.ok) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `[openchoreo-auth] OIDC discovery failed: HTTP ${response.status} from ${metadataUrl}`,
+      moduleLogger?.warn(
+        `OIDC discovery failed: HTTP ${response.status} from ${metadataUrl}`,
       );
       return null;
     }
@@ -55,20 +65,17 @@ function fetchOIDCDiscoverySync(
     const config = response.json() as OIDCDiscoveryConfig;
 
     if (!config.authorization_endpoint || !config.token_endpoint) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        '[openchoreo-auth] OIDC discovery response missing required endpoints',
-      );
+      moduleLogger?.warn('OIDC discovery response missing required endpoints');
       return null;
     }
 
     discoveryCache = config;
     return config;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      `[openchoreo-auth] OIDC discovery failed for ${metadataUrl}:`,
-      error,
+    moduleLogger?.warn(
+      `OIDC discovery failed for ${metadataUrl}: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
     );
     return null;
   }

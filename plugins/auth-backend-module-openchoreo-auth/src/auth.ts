@@ -10,7 +10,10 @@ import {
   stringifyEntityRef,
   DEFAULT_NAMESPACE,
 } from '@backstage/catalog-model';
-import { openChoreoAuthenticator } from './oidcAuthenticator';
+import {
+  openChoreoAuthenticator,
+  setAuthenticatorLogger,
+} from './oidcAuthenticator';
 import { decodeJwtUnsafe } from './jwtUtils';
 
 /**
@@ -53,6 +56,9 @@ export const OpenChoreoAuthModule = createBackendModule({
         discovery: coreServices.discovery,
       },
       async init({ providers, logger, config, discovery }) {
+        // Set up logger for the authenticator module
+        setAuthenticatorLogger(logger);
+
         // Check if auth feature is enabled (defaults to true)
         const authEnabled =
           config.getOptionalBoolean('openchoreo.features.auth.enabled') ?? true;
