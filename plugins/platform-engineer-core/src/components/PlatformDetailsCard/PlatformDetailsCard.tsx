@@ -51,7 +51,7 @@ export const PlatformDetailsCard = ({
                       {dataplane.displayName || dataplane.name}
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
-                      {dataplane.environments.length} environments •{' '}
+                      Data Plane • {dataplane.environments.length} environments •{' '}
                       {dataplane.organization}
                     </Typography>
                   </Box>
