@@ -49,6 +49,10 @@ import {
   RELATION_PART_OF,
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
+import {
+  RELATION_PROMOTES_TO,
+  RELATION_PROMOTED_BY,
+} from '@openchoreo/backstage-plugin-common';
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
@@ -560,7 +564,16 @@ const environmentPage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            height={400}
+            relations={[
+              RELATION_PART_OF,
+              RELATION_HAS_PART,
+              RELATION_PROMOTES_TO,
+              RELATION_PROMOTED_BY,
+            ]}
+          />
         </Grid>
       </Grid>
     </EntityLayout.Route>
@@ -608,7 +621,16 @@ const deploymentPipelinePage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard
+            variant="gridItem"
+            height={400}
+            relations={[
+              RELATION_PART_OF,
+              RELATION_HAS_PART,
+              RELATION_PROMOTES_TO,
+              RELATION_PROMOTED_BY,
+            ]}
+          />
         </Grid>
       </Grid>
     </EntityLayout.Route>
