@@ -40,3 +40,4 @@ export {
   DeploymentPipelineVisualization,
   PromotionPathsCard,
 } from './components/DeploymentPipelineOverview';
+export { GitSecretsPage } from './components/GitSecrets';
