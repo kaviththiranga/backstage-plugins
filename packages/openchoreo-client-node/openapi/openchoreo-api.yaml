@@ -3273,6 +3273,1392 @@ paths:
         '404':
           description: Trait not found
 
+  # ===== Resource Definition CRUD Endpoints =====
+
+  # Project definition
+  /namespaces/{namespaceName}/projects/{projectName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific project
+      operationId: getProjectDefinition
+      tags:
+        - Projects
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: projectName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: Project not found
+    put:
+      summary: Create or update a project definition
+      operationId: updateProjectDefinition
+      tags:
+        - Projects
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: projectName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a project definition
+      operationId: deleteProjectDefinition
+      tags:
+        - Projects
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: projectName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: Project not found
+
+  # Component definition (namespace-scoped)
+  /namespaces/{namespaceName}/components/{componentName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific component
+      operationId: getComponentDefinition
+      tags:
+        - Components
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: componentName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: Component not found
+    put:
+      summary: Create or update a component definition
+      operationId: updateComponentDefinition
+      tags:
+        - Components
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: componentName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a component definition
+      operationId: deleteComponentDefinition
+      tags:
+        - Components
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: componentName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: Component not found
+
+  # Environment definition
+  /namespaces/{namespaceName}/environments/{envName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific environment
+      operationId: getEnvironmentDefinition
+      tags:
+        - Environments
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: envName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: Environment not found
+    put:
+      summary: Create or update an environment definition
+      operationId: updateEnvironmentDefinition
+      tags:
+        - Environments
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: envName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete an environment definition
+      operationId: deleteEnvironmentDefinition
+      tags:
+        - Environments
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: envName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: Environment not found
+
+  # DataPlane definition
+  /namespaces/{namespaceName}/dataplanes/{dpName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific data plane
+      operationId: getDataPlaneDefinition
+      tags:
+        - DataPlanes
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: dpName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: DataPlane not found
+    put:
+      summary: Create or update a data plane definition
+      operationId: updateDataPlaneDefinition
+      tags:
+        - DataPlanes
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: dpName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a data plane definition
+      operationId: deleteDataPlaneDefinition
+      tags:
+        - DataPlanes
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: dpName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: DataPlane not found
+
+  # BuildPlane definition
+  /namespaces/{namespaceName}/buildplanes/{bpName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific build plane
+      operationId: getBuildPlaneDefinition
+      tags:
+        - BuildPlanes
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bpName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: BuildPlane not found
+    put:
+      summary: Create or update a build plane definition
+      operationId: updateBuildPlaneDefinition
+      tags:
+        - BuildPlanes
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bpName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a build plane definition
+      operationId: deleteBuildPlaneDefinition
+      tags:
+        - BuildPlanes
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bpName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: BuildPlane not found
+
+  # ObservabilityPlane definition
+  /namespaces/{namespaceName}/observabilityplanes/{opName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific observability plane
+      operationId: getObservabilityPlaneDefinition
+      tags:
+        - ObservabilityPlanes
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: opName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: ObservabilityPlane not found
+    put:
+      summary: Create or update an observability plane definition
+      operationId: updateObservabilityPlaneDefinition
+      tags:
+        - ObservabilityPlanes
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: opName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete an observability plane definition
+      operationId: deleteObservabilityPlaneDefinition
+      tags:
+        - ObservabilityPlanes
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: opName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: ObservabilityPlane not found
+
+  # DeploymentPipeline definition
+  /namespaces/{namespaceName}/deployment-pipelines/{dpName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific deployment pipeline
+      operationId: getDeploymentPipelineDefinition
+      tags:
+        - DeploymentPipelines
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: dpName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: DeploymentPipeline not found
+    put:
+      summary: Create or update a deployment pipeline definition
+      operationId: updateDeploymentPipelineDefinition
+      tags:
+        - DeploymentPipelines
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: dpName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a deployment pipeline definition
+      operationId: deleteDeploymentPipelineDefinition
+      tags:
+        - DeploymentPipelines
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: dpName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: DeploymentPipeline not found
+
+  # Workload definition
+  /namespaces/{namespaceName}/workloads/{workloadName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific workload
+      operationId: getWorkloadDefinition
+      tags:
+        - Workloads
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: workloadName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: Workload not found
+    put:
+      summary: Create or update a workload definition
+      operationId: updateWorkloadDefinition
+      tags:
+        - Workloads
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: workloadName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a workload definition
+      operationId: deleteWorkloadDefinition
+      tags:
+        - Workloads
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: workloadName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: Workload not found
+
+  # SecretReference definition
+  /namespaces/{namespaceName}/secret-references/{srName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific secret reference
+      operationId: getSecretReferenceDefinition
+      tags:
+        - SecretReferences
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: srName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: SecretReference not found
+    put:
+      summary: Create or update a secret reference definition
+      operationId: updateSecretReferenceDefinition
+      tags:
+        - SecretReferences
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: srName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a secret reference definition
+      operationId: deleteSecretReferenceDefinition
+      tags:
+        - SecretReferences
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: srName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: SecretReference not found
+
+  # GitSecret definition
+  /namespaces/{namespaceName}/git-secrets/{gsName}/definition:
+    get:
+      summary: Get the full CRD definition for a specific git secret
+      operationId: getGitSecretDefinition
+      tags:
+        - GitSecrets
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gsName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: GitSecret not found
+    put:
+      summary: Create or update a git secret definition
+      operationId: updateGitSecretDefinition
+      tags:
+        - GitSecrets
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gsName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a git secret definition
+      operationId: deleteGitSecretDefinition
+      tags:
+        - GitSecrets
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: gsName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: GitSecret not found
+
+  # AuthzRole (namespace role) definition
+  /namespaces/{namespaceName}/roles/{name}/definition:
+    get:
+      summary: Get the full CRD definition for a specific namespace role
+      operationId: getRoleDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: Role not found
+    put:
+      summary: Create or update a namespace role definition
+      operationId: updateRoleDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a namespace role definition
+      operationId: deleteRoleDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: Role not found
+
+  # AuthzRoleBinding (namespace role binding) definition
+  /namespaces/{namespaceName}/rolebindings/{name}/definition:
+    get:
+      summary: Get the full CRD definition for a specific namespace role binding
+      operationId: getRoleBindingDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: RoleBinding not found
+    put:
+      summary: Create or update a namespace role binding definition
+      operationId: updateRoleBindingDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a namespace role binding definition
+      operationId: deleteRoleBindingDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: namespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: RoleBinding not found
+
+  # AuthzClusterRole definition (cluster-scoped)
+  /clusterroles/{name}/definition:
+    get:
+      summary: Get the full CRD definition for a specific cluster role
+      operationId: getClusterRoleDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: ClusterRole not found
+    put:
+      summary: Create or update a cluster role definition
+      operationId: updateClusterRoleDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a cluster role definition
+      operationId: deleteClusterRoleDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: ClusterRole not found
+
+  # AuthzClusterRoleBinding definition (cluster-scoped)
+  /clusterrolebindings/{name}/definition:
+    get:
+      summary: Get the full CRD definition for a specific cluster role binding
+      operationId: getClusterRoleBindingDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Full Kubernetes CRD as unstructured JSON
+                        additionalProperties: true
+        '404':
+          description: ClusterRoleBinding not found
+    put:
+      summary: Create or update a cluster role binding definition
+      operationId: updateClusterRoleBindingDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Full Kubernetes CRD as unstructured JSON
+              additionalProperties: true
+      responses:
+        '200':
+          description: Resource applied successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+    delete:
+      summary: Delete a cluster role binding definition
+      operationId: deleteClusterRoleBindingDefinition
+      tags:
+        - Authorization
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resource deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ResourceCRUDResponse'
+        '404':
+          description: ClusterRoleBinding not found
+
   # Projects
   /namespaces/{namespaceName}/projects:
     get:

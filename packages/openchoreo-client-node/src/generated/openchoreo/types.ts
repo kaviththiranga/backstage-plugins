@@ -579,6 +579,272 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/namespaces/{namespaceName}/projects/{projectName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific project */
+    get: operations['getProjectDefinition'];
+    /** Create or update a project definition */
+    put: operations['updateProjectDefinition'];
+    post?: never;
+    /** Delete a project definition */
+    delete: operations['deleteProjectDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/components/{componentName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific component */
+    get: operations['getComponentDefinition'];
+    /** Create or update a component definition */
+    put: operations['updateComponentDefinition'];
+    post?: never;
+    /** Delete a component definition */
+    delete: operations['deleteComponentDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/environments/{envName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific environment */
+    get: operations['getEnvironmentDefinition'];
+    /** Create or update an environment definition */
+    put: operations['updateEnvironmentDefinition'];
+    post?: never;
+    /** Delete an environment definition */
+    delete: operations['deleteEnvironmentDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/dataplanes/{dpName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific data plane */
+    get: operations['getDataPlaneDefinition'];
+    /** Create or update a data plane definition */
+    put: operations['updateDataPlaneDefinition'];
+    post?: never;
+    /** Delete a data plane definition */
+    delete: operations['deleteDataPlaneDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/buildplanes/{bpName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific build plane */
+    get: operations['getBuildPlaneDefinition'];
+    /** Create or update a build plane definition */
+    put: operations['updateBuildPlaneDefinition'];
+    post?: never;
+    /** Delete a build plane definition */
+    delete: operations['deleteBuildPlaneDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/observabilityplanes/{opName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific observability plane */
+    get: operations['getObservabilityPlaneDefinition'];
+    /** Create or update an observability plane definition */
+    put: operations['updateObservabilityPlaneDefinition'];
+    post?: never;
+    /** Delete an observability plane definition */
+    delete: operations['deleteObservabilityPlaneDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/deployment-pipelines/{dpName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific deployment pipeline */
+    get: operations['getDeploymentPipelineDefinition'];
+    /** Create or update a deployment pipeline definition */
+    put: operations['updateDeploymentPipelineDefinition'];
+    post?: never;
+    /** Delete a deployment pipeline definition */
+    delete: operations['deleteDeploymentPipelineDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/workloads/{workloadName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific workload */
+    get: operations['getWorkloadDefinition'];
+    /** Create or update a workload definition */
+    put: operations['updateWorkloadDefinition'];
+    post?: never;
+    /** Delete a workload definition */
+    delete: operations['deleteWorkloadDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/secret-references/{srName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific secret reference */
+    get: operations['getSecretReferenceDefinition'];
+    /** Create or update a secret reference definition */
+    put: operations['updateSecretReferenceDefinition'];
+    post?: never;
+    /** Delete a secret reference definition */
+    delete: operations['deleteSecretReferenceDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/git-secrets/{gsName}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific git secret */
+    get: operations['getGitSecretDefinition'];
+    /** Create or update a git secret definition */
+    put: operations['updateGitSecretDefinition'];
+    post?: never;
+    /** Delete a git secret definition */
+    delete: operations['deleteGitSecretDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/roles/{name}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific namespace role */
+    get: operations['getRoleDefinition'];
+    /** Create or update a namespace role definition */
+    put: operations['updateRoleDefinition'];
+    post?: never;
+    /** Delete a namespace role definition */
+    delete: operations['deleteRoleDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/namespaces/{namespaceName}/rolebindings/{name}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific namespace role binding */
+    get: operations['getRoleBindingDefinition'];
+    /** Create or update a namespace role binding definition */
+    put: operations['updateRoleBindingDefinition'];
+    post?: never;
+    /** Delete a namespace role binding definition */
+    delete: operations['deleteRoleBindingDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/clusterroles/{name}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific cluster role */
+    get: operations['getClusterRoleDefinition'];
+    /** Create or update a cluster role definition */
+    put: operations['updateClusterRoleDefinition'];
+    post?: never;
+    /** Delete a cluster role definition */
+    delete: operations['deleteClusterRoleDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/clusterrolebindings/{name}/definition': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get the full CRD definition for a specific cluster role binding */
+    get: operations['getClusterRoleBindingDefinition'];
+    /** Create or update a cluster role binding definition */
+    put: operations['updateClusterRoleBindingDefinition'];
+    post?: never;
+    /** Delete a cluster role binding definition */
+    delete: operations['deleteClusterRoleBindingDefinition'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/namespaces/{namespaceName}/projects': {
     parameters: {
       query?: never;
@@ -1695,13 +1961,14 @@ export interface components {
       /** @description Additional information or status message */
       message?: string;
     };
-    /** @description Immutable snapshot of component configuration.
+    /**
+     * @description Immutable snapshot of component configuration.
      *     Note: The following fields are immutable after creation and cannot be modified:
      *     - componentType
      *     - traits
      *     - componentProfile
      *     - workload
-     *      */
+     */
     ComponentReleaseResponse: {
       name: string;
       componentName: string;
@@ -3388,6 +3655,1372 @@ export interface operations {
         };
       };
       /** @description Trait not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getProjectDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        projectName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description Project not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateProjectDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        projectName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteProjectDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        projectName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description Project not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getComponentDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        componentName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description Component not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateComponentDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        componentName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteComponentDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        componentName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description Component not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getEnvironmentDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        envName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description Environment not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateEnvironmentDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        envName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteEnvironmentDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        envName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description Environment not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getDataPlaneDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        dpName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description DataPlane not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateDataPlaneDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        dpName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteDataPlaneDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        dpName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description DataPlane not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getBuildPlaneDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        bpName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description BuildPlane not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateBuildPlaneDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        bpName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteBuildPlaneDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        bpName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description BuildPlane not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getObservabilityPlaneDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        opName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description ObservabilityPlane not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateObservabilityPlaneDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        opName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteObservabilityPlaneDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        opName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description ObservabilityPlane not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getDeploymentPipelineDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        dpName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description DeploymentPipeline not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateDeploymentPipelineDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        dpName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteDeploymentPipelineDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        dpName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description DeploymentPipeline not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getWorkloadDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        workloadName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description Workload not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateWorkloadDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        workloadName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteWorkloadDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        workloadName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description Workload not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getSecretReferenceDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        srName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description SecretReference not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateSecretReferenceDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        srName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteSecretReferenceDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        srName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description SecretReference not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGitSecretDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        gsName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description GitSecret not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateGitSecretDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        gsName: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteGitSecretDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        gsName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description GitSecret not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getRoleDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description Role not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateRoleDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteRoleDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description Role not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getRoleBindingDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description RoleBinding not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateRoleBindingDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteRoleBindingDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description RoleBinding not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getClusterRoleDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description ClusterRole not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateClusterRoleDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteClusterRoleDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description ClusterRole not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getClusterRoleBindingDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            /** @description Full Kubernetes CRD as unstructured JSON */
+            data?: {
+              [key: string]: unknown;
+            };
+          };
+        };
+      };
+      /** @description ClusterRoleBinding not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  updateClusterRoleBindingDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          [key: string]: unknown;
+        };
+      };
+    };
+    responses: {
+      /** @description Resource applied successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+    };
+  };
+  deleteClusterRoleBindingDefinition: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource deleted successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: components['schemas']['ResourceCRUDResponse'];
+          };
+        };
+      };
+      /** @description ClusterRoleBinding not found */
       404: {
         headers: {
           [name: string]: unknown;
