@@ -285,6 +285,16 @@ export class CtdToTemplateConverter {
       workflowNameField.enum = componentType.metadata.allowedWorkflows;
     }
 
+    // Auto Deploy field - shared across all deployment source branches, rendered at the bottom
+    const autoDeployField = {
+      title: 'Auto Deploy',
+      description:
+        'Automatically deploys the component to the first target environment once built',
+      type: 'boolean',
+      default: false,
+      'ui:field': 'SwitchField',
+    };
+
     return {
       title: 'Build & Deploy',
       required: ['deploymentSource'],
@@ -297,14 +307,6 @@ export class CtdToTemplateConverter {
           default: 'build-from-source',
           'ui:field': 'DeploymentSourcePicker',
         },
-        autoDeploy: {
-          title: 'Auto Deploy',
-          description:
-            'Automatically deploy the component to the default environment.',
-          type: 'boolean',
-          default: false,
-          'ui:field': 'SwitchField',
-        },
       },
       dependencies: {
         deploymentSource: {
@@ -315,6 +317,35 @@ export class CtdToTemplateConverter {
                 deploymentSource: {
                   const: 'build-from-source',
                 },
+                repo_url: {
+                  title: 'Git Repository URL',
+                  type: 'string',
+                  description:
+                    'URL of the Git repository containing your source code',
+                },
+                branch: {
+                  title: 'Branch',
+                  type: 'string',
+                  description: 'Git branch to build from',
+                  default: 'main',
+                },
+                component_path: {
+                  title: 'Application Path',
+                  type: 'string',
+                  description:
+                    'Path to the application directory within the repository',
+                  default: '.',
+                },
+                git_secret_ref: {
+                  title: 'Git Secret',
+                  type: 'string',
+                  description:
+                    'Secret reference for private repository credentials (optional for public repos)',
+                  'ui:field': 'GitSecretField',
+                  'ui:options': {
+                    namespaceName: namespaceName,
+                  },
+                },
                 workflow_name: workflowNameField,
                 workflow_parameters: {
                   title: 'Workflow Parameters',
@@ -324,6 +355,7 @@ export class CtdToTemplateConverter {
                     namespaceName: namespaceName,
                   },
                 },
+                autoDeploy: autoDeployField,
               },
               required: ['workflow_name', 'workflow_parameters'],
             },
@@ -340,6 +372,7 @@ export class CtdToTemplateConverter {
                     'Full image reference (e.g., ghcr.io/org/app:v1.0.0 or nginx:latest)',
                   'ui:field': 'ContainerImageField',
                 },
+                autoDeploy: autoDeployField,
               },
               required: ['containerImage'],
             },
@@ -363,6 +396,7 @@ export class CtdToTemplateConverter {
                   ],
                   default: 'none',
                 },
+                autoDeploy: autoDeployField,
               },
             },
           ],
@@ -719,6 +753,7 @@ export class CtdToTemplateConverter {
           repo_url: '${{ parameters.repo_url }}',
           branch: '${{ parameters.branch }}',
           component_path: '${{ parameters.component_path }}',
+          gitSecretRef: '${{ parameters.git_secret_ref }}',
           workflow_name: '${{ parameters.workflow_name }}',
           workflow_parameters: '${{ parameters.workflow_parameters }}',
           // External CI parameters

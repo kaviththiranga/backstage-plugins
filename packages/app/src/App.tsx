@@ -21,6 +21,7 @@ import { SwitchFieldExtension } from './scaffolder/SwitchField';
 import { AdvancedConfigurationFieldExtension } from './scaffolder/AdvancedConfigurationField';
 import { DeploymentSourcePickerFieldExtension } from './scaffolder/DeploymentSourcePicker';
 import { ContainerImageFieldExtension } from './scaffolder/ContainerImageField';
+import { GitSecretFieldExtension } from './scaffolder/GitSecretField';
 import { ProjectNamespaceFieldExtension } from './scaffolder/ProjectNamespaceField';
 import { CustomReviewStep } from './scaffolder/CustomReviewState';
 import { ScaffolderPreselectionProvider } from './scaffolder/ScaffolderPreselectionContext';
@@ -218,6 +219,7 @@ const routes = (
         <AdvancedConfigurationFieldExtension />
         <DeploymentSourcePickerFieldExtension />
         <ContainerImageFieldExtension />
+        <GitSecretFieldExtension />
       </ScaffolderFieldExtensions>
     </Route>
     <Route path="/api-docs" element={<ApiExplorerPage />} />
