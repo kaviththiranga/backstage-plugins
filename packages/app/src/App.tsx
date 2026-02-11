@@ -26,6 +26,7 @@ import { GitSourceFieldExtension } from './scaffolder/GitSourceField';
 import { ProjectNamespaceFieldExtension } from './scaffolder/ProjectNamespaceField';
 import { CustomReviewStep } from './scaffolder/CustomReviewState';
 import { ScaffolderPreselectionProvider } from './scaffolder/ScaffolderPreselectionContext';
+import { ScaffolderLayout } from './scaffolder/ScaffolderLayout';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 import {
@@ -198,14 +199,16 @@ const routes = (
     <Route
       path="/create"
       element={
-        <ScaffolderPreselectionProvider>
-          <ScaffolderPage
-            groups={templateGroups}
-            components={{
-              ReviewStepComponent: CustomReviewStep,
-            }}
-          />
-        </ScaffolderPreselectionProvider>
+        <ScaffolderLayout>
+          <ScaffolderPreselectionProvider>
+            <ScaffolderPage
+              groups={templateGroups}
+              components={{
+                ReviewStepComponent: CustomReviewStep,
+              }}
+            />
+          </ScaffolderPreselectionProvider>
+        </ScaffolderLayout>
       }
     >
       <ScaffolderFieldExtensions>
