@@ -24,6 +24,7 @@ import { ContainerImageFieldExtension } from './scaffolder/ContainerImageField';
 import { GitSecretFieldExtension } from './scaffolder/GitSecretField';
 import { GitSourceFieldExtension } from './scaffolder/GitSourceField';
 import { ProjectNamespaceFieldExtension } from './scaffolder/ProjectNamespaceField';
+import { WorkloadDetailsFieldExtension } from './scaffolder/WorkloadDetailsField';
 import { CustomReviewStep } from './scaffolder/CustomReviewState';
 import { ScaffolderPreselectionProvider } from './scaffolder/ScaffolderPreselectionContext';
 import { ScaffolderLayout } from './scaffolder/ScaffolderLayout';
@@ -225,6 +226,7 @@ const routes = (
         <ContainerImageFieldExtension />
         <GitSecretFieldExtension />
         <GitSourceFieldExtension />
+        <WorkloadDetailsFieldExtension />
       </ScaffolderFieldExtensions>
     </Route>
     <Route path="/api-docs" element={<ApiExplorerPage />} />
