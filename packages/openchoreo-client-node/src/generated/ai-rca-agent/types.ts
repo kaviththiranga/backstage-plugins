@@ -17,7 +17,6 @@ export interface paths {
      * Trigger RCA analysis for an alert
      * @description Creates a pending RCA report and triggers background analysis for the given alert.
      *     The analysis runs asynchronously and the report status can be checked via the reports endpoints.
-     *
      */
     post: operations['rca'];
     delete?: never;
@@ -45,7 +44,6 @@ export interface paths {
      *     **Streaming Response Format (NDJSON):**
      *     Each line is a JSON object with a `type` field indicating the event type.
      *     Events are streamed in order: `message_chunk`* → `tool_call`* → `actions`? → `done`
-     *
      */
     post: operations['chat'];
     delete?: never;
@@ -65,7 +63,6 @@ export interface paths {
      * List RCA reports by project
      * @description Retrieves a list of RCA reports filtered by project, environment, and time range.
      *     Optionally filter by component UIDs and status.
-     *
      */
     get: operations['getRCAReportsByProject'];
     put?: never;
@@ -90,7 +87,6 @@ export interface paths {
      *     returns the latest version.
      *
      *     The response includes a list of all available versions for the alert.
-     *
      */
     get: operations['getRCAReportByAlert'];
     put?: never;
@@ -277,9 +273,10 @@ export interface components {
        */
       content: string;
     };
-    /** @description A streaming event. Events are sent as newline-delimited JSON (NDJSON).
+    /**
+     * @description A streaming event. Events are sent as newline-delimited JSON (NDJSON).
      *     Use the `type` field to determine the event type.
-     *      */
+     */
     StreamEvent:
       | components['schemas']['MessageChunkEvent']
       | components['schemas']['ToolCallEvent']
@@ -471,18 +468,20 @@ export interface components {
       /** @description The full RCA report content (null if status is pending or failed) */
       report?: components['schemas']['RCAReport'];
     };
-    /** @description Complete Root Cause Analysis Report */
+    /** @description Complete Root Cause Analysis Report for OpenChoreo incidents */
     RCAReport: {
+      /** @description The alert that triggered this RCA */
       alert_context: components['schemas']['ReportAlertContext'];
       /**
        * @description Concise summary of the investigation outcome (1 sentence)
        * @example Database connection pool exhaustion caused by memory leak in connection handler
        */
       summary: string;
-      /** @description The RCA result - either root causes identified or explanation of why not */
+      /** @description The RCA result - either root causes identified, or explanation of why not */
       result:
         | components['schemas']['RootCauseIdentified']
         | components['schemas']['NoRootCauseIdentified'];
+      /** @description Sequential steps the agent took during investigation */
       investigation_path: components['schemas']['InvestigationStep'][];
     };
     /** @description Alert context echoed in the RCA report for reference */

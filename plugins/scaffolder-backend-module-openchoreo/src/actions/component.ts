@@ -362,9 +362,7 @@ export const createComponentAction = (
         );
 
         // Create Workload CR when there's workload data or when deploying from image.
-        //
-        // The Workload CRD requires `image` (Required, MinLength=1) on Container,
-        // so env vars and file mounts can only be included when there's an image.
+        // Image is optional — env vars and file mounts can be set pre-build.
         // Endpoints live at the spec level and don't require a container.
         const containerImage = (ctx.input as any).containerImage;
         const hasEndpoints =
@@ -390,8 +388,6 @@ export const createComponentAction = (
           // Extract port from CTD parameters if available (legacy fallback)
           const port = ctdParameters.port as number | undefined;
 
-          // For non-image deployments, only pass env vars and file mounts if
-          // there's also an image, since the CRD requires image on Container.
           const effectiveContainerImage = isFromImage
             ? containerImage
             : undefined;
@@ -402,10 +398,8 @@ export const createComponentAction = (
             containerImage: effectiveContainerImage,
             port: port,
             endpoints: workloadEndpoints,
-            envVars: effectiveContainerImage ? workloadEnvVars : undefined,
-            fileMounts: effectiveContainerImage
-              ? workloadFileMounts
-              : undefined,
+            envVars: workloadEnvVars,
+            fileMounts: workloadFileMounts,
           });
 
           ctx.logger.debug(

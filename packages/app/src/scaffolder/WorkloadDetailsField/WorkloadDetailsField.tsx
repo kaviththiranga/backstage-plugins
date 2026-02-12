@@ -208,11 +208,7 @@ export const WorkloadDetailsField = ({
   const classes = useStyles();
   const client = useApi(openChoreoClientApiRef);
 
-  // Env vars and file mounts require a container with an image.
-  // For build-from-source and external-ci the image isn't known yet,
-  // so we hide these sections.
   const deploymentSource = (formContext as any)?.formData?.deploymentSource;
-  const isFromImage = deploymentSource === 'deploy-from-image';
   const isBuildFromSource = deploymentSource === 'build-from-source';
   const isExternalCi = deploymentSource === 'external-ci';
   const showWorkloadApiToggle = isBuildFromSource || isExternalCi;
@@ -281,7 +277,7 @@ export const WorkloadDetailsField = ({
     ) => {
       const descriptorActive =
         newUseWorkloadDescriptor ?? useWorkloadDescriptor;
-      const shouldIncludeVars = !descriptorActive && isFromImage;
+      const shouldIncludeVars = !descriptorActive;
       onChange({
         ctdParameters: newCtd,
         endpoints: descriptorActive ? {} : newEndpoints,
@@ -295,7 +291,7 @@ export const WorkloadDetailsField = ({
         })),
       });
     },
-    [onChange, isFromImage, useWorkloadDescriptor],
+    [onChange, useWorkloadDescriptor],
   );
 
   const handleWorkloadDescriptorChange = useCallback(
@@ -946,16 +942,6 @@ export const WorkloadDetailsField = ({
             Container Configuration
           </Typography>
 
-          {!isFromImage && (
-            <Box mb={2}>
-              <Alert severity="info">
-                {isExternalCi
-                  ? 'Environment variables and file mounts will be configurable from the Deploy page once the workload is created with a container image.'
-                  : 'Environment variables and file mounts will be configurable from the Deploy page after a build completes.'}
-              </Alert>
-            </Box>
-          )}
-
           {/* Environment Variables */}
           <Typography variant="subtitle2" className={classes.sectionTitle}>
             Environment Variables
@@ -968,7 +954,7 @@ export const WorkloadDetailsField = ({
             envVars={envVars}
             secretOptions={secretOptions}
             envModes={envModes}
-            disabled={!isFromImage}
+            disabled={false}
             editBuffer={envEditBuffer}
             onEnvVarChange={handleEnvVarChange}
             onRemoveEnvVar={handleRemoveEnvVar}
@@ -989,7 +975,7 @@ export const WorkloadDetailsField = ({
               fileVars={fileMounts}
               secretOptions={secretOptions}
               fileModes={fileModes}
-              disabled={!isFromImage}
+              disabled={false}
               editBuffer={fileEditBuffer}
               onFileVarChange={handleFileVarChange}
               onRemoveFileVar={handleRemoveFileVar}

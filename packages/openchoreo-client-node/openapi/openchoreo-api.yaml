@@ -1211,8 +1211,6 @@ components:
 
     Container:
       type: object
-      required:
-        - image
       properties:
         image:
           type: string
@@ -1228,6 +1226,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvVar'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileVar'
 
     WorkloadEndpoint:
       type: object

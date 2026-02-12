@@ -169,12 +169,6 @@ export interface WorkloadResourceInput {
 export function buildWorkloadResource(
   input: WorkloadResourceInput,
 ): WorkloadResource {
-  // Build container spec — only if there's an image, because the CRD requires
-  // `image` (Required, MinLength=1) on Container. Without an image, containers
-  // must be omitted entirely. Env vars and file mounts live inside a container,
-  // so they can only be set when an image is provided.
-  const hasImage = !!input.containerImage;
-
   const resource: WorkloadResource = {
     apiVersion: 'openchoreo.dev/v1alpha1',
     kind: 'Workload',
@@ -191,21 +185,23 @@ export function buildWorkloadResource(
     },
   };
 
-  if (hasImage) {
-    const mainContainer: Record<string, any> = {
-      image: input.containerImage,
-    };
+  // Build the main container — image is optional (may be set later by build pipeline)
+  const mainContainer: Record<string, any> = {};
 
-    // Add environment variables
-    if (input.envVars && input.envVars.length > 0) {
-      mainContainer.env = input.envVars;
-    }
+  if (input.containerImage) {
+    mainContainer.image = input.containerImage;
+  }
 
-    // Add file mounts
-    if (input.fileMounts && input.fileMounts.length > 0) {
-      mainContainer.files = input.fileMounts;
-    }
+  if (input.envVars && input.envVars.length > 0) {
+    mainContainer.env = input.envVars;
+  }
 
+  if (input.fileMounts && input.fileMounts.length > 0) {
+    mainContainer.files = input.fileMounts;
+  }
+
+  // Only add container if it has any data
+  if (Object.keys(mainContainer).length > 0) {
     resource.spec.containers = { main: mainContainer };
   }
 

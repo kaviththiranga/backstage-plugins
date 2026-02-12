@@ -1695,13 +1695,14 @@ export interface components {
       /** @description Additional information or status message */
       message?: string;
     };
-    /** @description Immutable snapshot of component configuration.
+    /**
+     * @description Immutable snapshot of component configuration.
      *     Note: The following fields are immutable after creation and cannot be modified:
      *     - componentType
      *     - traits
      *     - componentProfile
      *     - workload
-     *      */
+     */
     ComponentReleaseResponse: {
       name: string;
       componentName: string;
@@ -1774,10 +1775,11 @@ export interface components {
       key: string;
     };
     Container: {
-      image: string;
+      image?: string;
       command?: string[];
       args?: string[];
       env?: components['schemas']['EnvVar'][];
+      files?: components['schemas']['FileVar'][];
     };
     WorkloadEndpoint: {
       /** @enum {string} */
