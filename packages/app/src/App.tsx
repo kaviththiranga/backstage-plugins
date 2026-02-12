@@ -176,11 +176,7 @@ const routes = (
   <FlatRoutes>
     <Route path="/" element={<HomePage />} />
     <Route path="/catalog" element={<CatalogIndexPage />}>
-      <CustomCatalogPage
-        initialKind="component"
-        initiallySelectedFilter="all"
-        ownerPickerMode="all"
-      />
+      <CustomCatalogPage initialKind="system" />
     </Route>
     <Route
       path="/catalog/:namespace/:kind/:name"
