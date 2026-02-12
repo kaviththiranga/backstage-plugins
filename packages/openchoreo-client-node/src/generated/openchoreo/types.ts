@@ -140,6 +140,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/namespaces/{namespaceName}/resources/{kind}/{resourceName}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get a namespaced resource by kind and name */
+    get: operations['getNamespacedResource'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/namespaces': {
     parameters: {
       query?: never;
@@ -1695,13 +1712,14 @@ export interface components {
       /** @description Additional information or status message */
       message?: string;
     };
-    /** @description Immutable snapshot of component configuration.
+    /**
+     * @description Immutable snapshot of component configuration.
      *     Note: The following fields are immutable after creation and cannot be modified:
      *     - componentType
      *     - traits
      *     - componentProfile
      *     - workload
-     *      */
+     */
     ComponentReleaseResponse: {
       name: string;
       componentName: string;
@@ -2295,6 +2313,35 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['APIResponse'];
+        };
+      };
+    };
+  };
+  getNamespacedResource: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        namespaceName: string;
+        /** @description PascalCase CRD kind (e.g. ComponentType, Workflow) */
+        kind: string;
+        resourceName: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Resource fetched successfully */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['APIResponse'] & {
+            data?: {
+              [key: string]: unknown;
+            };
+          };
         };
       };
     };
