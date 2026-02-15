@@ -12,6 +12,11 @@ export {
 } from './plugin';
 export * from './components/HomePage/MyProjectsWidget';
 export * from './components/HomePage/QuickActionsSection';
+export * from './components/HomePage/LatestBuildsWidget';
+export * from './components/HomePage/DeploymentStatusWidget';
+export * from './components/HomePage/ComponentHealthWidget';
+export * from './components/HomePage/HttpMetricsWidget';
+export * from './components/HomePage/ActiveAlertsWidget';
 export { ProjectComponentsCard } from './components/Projects/ProjectComponentsCard';
 export {
   useDeleteEntityMenuItems,

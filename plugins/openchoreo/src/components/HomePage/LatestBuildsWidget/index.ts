@@ -1,0 +1,1 @@
+export { LatestBuildsWidget } from './LatestBuildsWidget';

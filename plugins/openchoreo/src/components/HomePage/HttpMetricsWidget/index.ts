@@ -1,0 +1,1 @@
+export { HttpMetricsWidget } from './HttpMetricsWidget';
