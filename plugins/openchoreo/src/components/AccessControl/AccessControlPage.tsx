@@ -1,11 +1,10 @@
 import { useMemo, useState } from 'react';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, Tabs, Tab } from '@material-ui/core';
 import {
   Page,
   Header,
   Content,
   WarningPanel,
-  HeaderTabs,
   Progress,
 } from '@backstage/core-components';
 import {
@@ -29,7 +28,11 @@ const isAuthzDisabledError = (error: Error | null): boolean => {
   );
 };
 
-const AccessControlPageContent = () => {
+/**
+ * Embeddable Access Control content without Page/Header/Content wrappers.
+ * Uses MUI Tabs as secondary navigation, suitable for embedding within SettingsLayout.
+ */
+export const AccessControlContent = () => {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState(0);
   const { error: rolesError, loading: rolesLoading } = useClusterRoles();
@@ -54,8 +57,8 @@ const AccessControlPageContent = () => {
     return visibleTabs;
   }, [canViewRoles, canViewMappings]);
 
-  const handleTabChange = (index: number) => {
-    setSelectedTab(index);
+  const handleTabChange = (_: React.ChangeEvent<{}>, newValue: number) => {
+    setSelectedTab(newValue);
   };
 
   const renderTabContent = () => {
@@ -73,58 +76,67 @@ const AccessControlPageContent = () => {
   };
 
   if (permissionsLoading) {
-    return (
-      <Page themeId="tool">
-        <Header
-          title="Access Control"
-          subtitle="Manage roles, permissions, and entitlement mappings"
-        />
-        <Content className={classes.content}>
-          <Progress />
-        </Content>
-      </Page>
-    );
+    return <Progress />;
   }
 
   if (authzDisabled) {
     return (
-      <Page themeId="tool">
-        <Header
-          title="Access Control"
-          subtitle="Manage roles, permissions, and entitlement mappings"
-        />
-        <Content className={classes.content}>
-          <WarningPanel severity="info" title="Authorization is Disabled">
-            <Typography variant="body1">
-              Policy management operations are not available because
-              authorization is disabled in the OpenChoreo backend configuration.
-            </Typography>
-            <Typography variant="body2" style={{ marginTop: 16 }}>
-              To enable authorization, configure the OpenChoreo backend with:
-            </Typography>
-            <Box
-              component="pre"
-              style={{
-                marginTop: 8,
-                padding: 12,
-                backgroundColor: '#f5f5f5',
-                borderRadius: 4,
-                overflow: 'auto',
-              }}
-            >
-              {`authz:
+      <WarningPanel severity="info" title="Authorization is Disabled">
+        <Typography variant="body1">
+          Policy management operations are not available because authorization
+          is disabled in the OpenChoreo backend configuration.
+        </Typography>
+        <Typography variant="body2" style={{ marginTop: 16 }}>
+          To enable authorization, configure the OpenChoreo backend with:
+        </Typography>
+        <Box
+          component="pre"
+          style={{
+            marginTop: 8,
+            padding: 12,
+            backgroundColor: '#f5f5f5',
+            borderRadius: 4,
+            overflow: 'auto',
+          }}
+        >
+          {`authz:
   enabled: true
   databasePath: /path/to/authz.db
   userTypeConfigs:
     - subjectType: user
       claimKey: groups`}
-            </Box>
-          </WarningPanel>
-        </Content>
-      </Page>
+        </Box>
+      </WarningPanel>
     );
   }
 
+  return (
+    <>
+      <Tabs
+        value={selectedTab}
+        onChange={handleTabChange}
+        indicatorColor="primary"
+        textColor="primary"
+        className={classes.secondaryTabs}
+      >
+        {tabs.map(tab => (
+          <Tab
+            key={tab.id}
+            label={tab.label}
+            className={classes.secondaryTab}
+          />
+        ))}
+      </Tabs>
+      <Box className={classes.tabPanel}>{renderTabContent()}</Box>
+    </>
+  );
+};
+
+/**
+ * Access Control page for managing roles, permissions, and entitlement mappings.
+ */
+export const AccessControlPage = () => {
+  const classes = useStyles();
   return (
     <Page themeId="tool">
       <Header
@@ -132,20 +144,8 @@ const AccessControlPageContent = () => {
         subtitle="Manage roles, permissions, and entitlement mappings"
       />
       <Content className={classes.content}>
-        <Box className={classes.tabsWrapper}>
-          <HeaderTabs
-            selectedIndex={selectedTab}
-            onChange={handleTabChange}
-            tabs={tabs}
-          />
-        </Box>
-        <Box className={classes.tabPanel}>{renderTabContent()}</Box>
+        <AccessControlContent />
       </Content>
     </Page>
   );
 };
-
-/**
- * Access Control page for managing roles, permissions, and entitlement mappings.
- */
-export const AccessControlPage = AccessControlPageContent;

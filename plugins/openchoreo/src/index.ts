@@ -45,7 +45,8 @@ export {
   DeploymentPipelineVisualization,
   PromotionPathsCard,
 } from './components/DeploymentPipelineOverview';
-export { GitSecretsPage } from './components/GitSecrets';
+export { GitSecretsPage, GitSecretsContent } from './components/GitSecrets';
+export { AccessControlContent } from './components/AccessControl';
 export { ComponentTypeOverviewCard } from './components/ComponentTypeOverview';
 export { TraitTypeOverviewCard } from './components/TraitTypeOverview';
 export { WorkflowOverviewCard } from './components/WorkflowOverview';

@@ -17,6 +17,18 @@ export const useStyles = makeStyles(theme => ({
       height: '3px',
     },
   },
+  secondaryTabs: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    minHeight: 36,
+  },
+  secondaryTab: {
+    textTransform: 'none' as const,
+    fontSize: '0.875rem',
+    fontWeight: theme.typography.fontWeightMedium as number,
+    minHeight: 36,
+    minWidth: 'auto',
+    padding: theme.spacing(0.5, 2),
+  },
   tabPanel: {
     padding: theme.spacing(3),
     '& [class*="MuiTableCell-head"]': {

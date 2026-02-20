@@ -44,7 +44,7 @@ import {
 } from '@backstage/plugin-techdocs';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-import { UserSettingsPage } from '@backstage/plugin-user-settings';
+import { UserSettingsPage, SettingsLayout } from '@backstage/plugin-user-settings';
 import { apis, openChoreoAuthApiRef } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { CustomCatalogPage } from './components/catalog/CustomCatalogPage';
@@ -75,8 +75,8 @@ import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import BuildIcon from '@material-ui/icons/Build';
 import {
-  AccessControlPage,
-  GitSecretsPage,
+  AccessControlContent,
+  GitSecretsContent,
 } from '@openchoreo/backstage-plugin';
 import CategoryIcon from '@material-ui/icons/Category';
 import ExtensionIcon from '@material-ui/icons/Extension';
@@ -267,14 +267,19 @@ const routes = (
       element={
         <UserSettingsPage providerSettings={<OpenChoreoProviderSettings />} />
       }
-    />
+    >
+      <SettingsLayout.Route path="/access-control" title="Access Control">
+        <AccessControlContent />
+      </SettingsLayout.Route>
+      <SettingsLayout.Route path="/git-secrets" title="Git Secrets">
+        <GitSecretsContent />
+      </SettingsLayout.Route>
+    </Route>
     <Route
       path="/catalog-graph"
       element={<CatalogGraphPage renderNode={CustomGraphNode} />}
     />
     <Route path="/platform-overview" element={<PlatformOverviewPage />} />
-    <Route path="/admin/access-control" element={<AccessControlPage />} />
-    <Route path="/admin/git-secrets" element={<GitSecretsPage />} />
   </FlatRoutes>
 );
 
