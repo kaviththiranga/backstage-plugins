@@ -50,11 +50,11 @@ function createNameColumnWithDeletion(): TableColumn<CatalogTableRow> {
 }
 
 /**
- * Custom column factory for creating a "Project" column (replaces "System")
+ * Custom column factory for creating a "Project" column
  */
 function createProjectColumn(): TableColumn<CatalogTableRow> {
   return {
-    title: 'System (Project)',
+    title: 'Project',
     field: 'resolved.partOfSystemRelationTitle',
     customFilterAndSearch: (query, row) => {
       if (!row.resolved.partOfSystemRelations) {
