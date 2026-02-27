@@ -192,7 +192,7 @@ export const useCardListStyles = makeStyles(theme => {
       gridTemplateColumns: '40px 1fr 1.5fr 1fr 1fr 1fr 80px',
       [theme.breakpoints.down('xs')]: mobileGrid,
     },
-    // API: Icon | Name | Description | Namespace | Project | Component | Type | Actions
+    // Endpoint: Icon | Name | Description | Namespace | Project | Component | Type | Actions
     gridTemplateApi: {
       gridTemplateColumns: '40px 1fr 1.5fr 1fr 1fr 1fr 1fr 80px',
       [theme.breakpoints.down('xs')]: mobileGrid,

@@ -25,7 +25,7 @@ export const CustomApiExplorerPage = () => {
   const registerApiLink = useRouteRef(catalogImportPlugin.routes.importPage);
 
   return (
-    <PageWithHeader title="APIs" themeId="home">
+    <PageWithHeader title="Endpoints" themeId="home">
       <Content>
         <EntityListProvider pagination={{ mode: 'offset', limit: 25 }}>
           <EntityKindPicker initialFilter="api" hidden />

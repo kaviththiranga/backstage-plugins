@@ -19,7 +19,7 @@ const kindDisplayNames: Record<string, string> = {
   domain: 'Namespace',
   system: 'Project',
   component: 'Component',
-  api: 'API',
+  api: 'Endpoint',
   user: 'User',
   group: 'Group',
   resource: 'Resource',

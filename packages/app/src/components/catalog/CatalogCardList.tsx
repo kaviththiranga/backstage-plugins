@@ -35,7 +35,7 @@ const kindPluralNames: Record<string, string> = {
   Namespace: 'Namespaces',
   Project: 'Projects',
   Component: 'Components',
-  API: 'APIs',
+  Endpoint: 'Endpoints',
   User: 'Users',
   Group: 'Groups',
   Resource: 'Resources',

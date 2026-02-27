@@ -269,13 +269,13 @@ const serviceEntityPage = (
       <EntityKubernetesContent />
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/api" title="API">
+    <EntityLayout.Route path="/api" title="Endpoints">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
-          <EntityProvidedApisCard />
+          <EntityProvidedApisCard title="Provided Endpoints" />
         </Grid>
         <Grid item md={6}>
-          <EntityConsumedApisCard />
+          <EntityConsumedApisCard title="Consumed Endpoints" />
         </Grid>
       </Grid>
     </EntityLayout.Route>
