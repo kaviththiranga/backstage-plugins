@@ -59,8 +59,8 @@ export const ProductionOverviewCard = () => {
   // Fetch invoke URL for production environment
   const { invokeUrl } = useInvokeUrl(
     entity,
-    productionEnv?.name || '',
-    productionEnv?.resourceName,
+    productionEnv?.displayName || '',
+    productionEnv?.name,
     productionEnv?.deployment?.releaseName,
     productionEnv?.deployment?.status,
     productionEnv?.dataPlaneRef,

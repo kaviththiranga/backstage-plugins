@@ -83,7 +83,7 @@ export interface EnvironmentCardHeaderProps {
  */
 export interface EnvironmentCardContentProps {
   environmentName: string;
-  resourceName?: string;
+  name?: string;
   status?: 'Ready' | 'NotReady' | 'Failed';
   lastDeployed?: string;
   image?: string;
@@ -107,8 +107,8 @@ export interface EnvironmentActionsProps {
   deploymentStatus?: 'Ready' | 'NotReady' | 'Failed';
   releaseName?: string;
   promotionTargets?: Array<{
+    displayName: string;
     name: string;
-    resourceName?: string;
     requiresApproval?: boolean;
   }>;
   isAlreadyPromoted: (targetEnvName: string) => boolean;
@@ -123,7 +123,7 @@ export interface EnvironmentActionsProps {
  */
 export interface EnvironmentCardProps {
   environmentName: string;
-  resourceName?: string;
+  name: string;
   bindingName?: string;
   hasComponentTypeOverrides?: boolean;
   dataPlaneRef?: string;
@@ -140,8 +140,8 @@ export interface EnvironmentCardProps {
     visibility: string;
   }>;
   promotionTargets?: Array<{
+    displayName: string;
     name: string;
-    resourceName?: string;
     requiresApproval?: boolean;
   }>;
   isRefreshing: boolean;

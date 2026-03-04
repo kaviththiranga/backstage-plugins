@@ -190,8 +190,8 @@ describe('EnvironmentInfoService', () => {
       );
 
       expect(result).toHaveLength(1);
+      expect(result[0].displayName).toBe('dev');
       expect(result[0].name).toBe('dev');
-      expect(result[0].resourceName).toBe('dev');
       expect(result[0].dataPlaneRef).toBe('default-dp');
       expect(result[0].deployment.status).toBe('Ready');
       expect(result[0].deployment.releaseName).toBe('release-1');
@@ -501,7 +501,7 @@ describe('EnvironmentInfoService', () => {
         'token-123',
       );
 
-      const envNames = result.map(e => e.name);
+      const envNames = result.map(e => e.displayName);
       expect(envNames).toEqual(['dev', 'staging', 'Production Environment']);
       expect(envNames).not.toContain('pre-prod');
       expect(envNames).not.toContain('qa');
@@ -526,9 +526,9 @@ describe('EnvironmentInfoService', () => {
         'token-123',
       );
 
-      expect(result[0].name).toBe('dev');
-      expect(result[1].name).toBe('staging');
-      expect(result[2].name).toBe('Production Environment');
+      expect(result[0].displayName).toBe('dev');
+      expect(result[1].displayName).toBe('staging');
+      expect(result[2].displayName).toBe('Production Environment');
     });
 
     it('returns all environments when no pipeline exists', async () => {

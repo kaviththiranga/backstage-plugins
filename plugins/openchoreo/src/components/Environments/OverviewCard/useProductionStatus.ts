@@ -34,7 +34,7 @@ export function useProductionStatus() {
 
       // Find production environment (matches "prod" or "production", case-insensitive)
       const productionEnv = environments.find(env => {
-        const name = env.name.toLowerCase();
+        const name = env.displayName.toLowerCase();
         return name === 'prod' || name === 'production';
       });
 

@@ -64,7 +64,7 @@ export const ReleaseDetailsPage = ({
     unknown
   > | null>(null);
 
-  const environmentName = environment.resourceName || environment.name;
+  const environmentName = environment.name;
 
   const namespaceName =
     entity.metadata.annotations?.[CHOREO_ANNOTATIONS.NAMESPACE] ?? '';
@@ -162,7 +162,7 @@ export const ReleaseDetailsPage = ({
   return (
     <DetailPageLayout
       title="Release Details"
-      subtitle={environment.name}
+      subtitle={environment.displayName}
       onBack={onBack}
       actions={actions}
     >

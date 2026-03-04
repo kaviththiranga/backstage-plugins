@@ -118,7 +118,8 @@ export const Environments = () => {
       displayEnvironments,
       loading,
       refetch,
-      lowestEnvironment: environments[0]?.name?.toLowerCase() || 'development',
+      lowestEnvironment:
+        environments[0]?.displayName?.toLowerCase() || 'development',
       isWorkloadEditorSupported,
       autoDeploy,
       autoDeployUpdating,

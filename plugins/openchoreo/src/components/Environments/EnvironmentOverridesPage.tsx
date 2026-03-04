@@ -128,7 +128,7 @@ export const EnvironmentOverridesPage = ({
     pendingAction?.releaseName || environment.deployment.releaseName;
 
   // Use K8s resource name for API calls (matches binding.environment from backend)
-  const environmentName = environment.resourceName || environment.name;
+  const environmentName = environment.name;
 
   // Load data using custom hook
   const {
@@ -781,7 +781,7 @@ export const EnvironmentOverridesPage = ({
               showEnvVarStatus
               onStartOverride={handleStartOverride}
               onStartFileOverride={handleStartFileOverride}
-              environmentName={environment.name}
+              environmentName={environment.displayName}
             />
           }
         />
@@ -799,7 +799,7 @@ export const EnvironmentOverridesPage = ({
             ? 'Configure Required Overrides'
             : 'Configure Overrides'
         }
-        subtitle={environment.name}
+        subtitle={environment.displayName}
         onBack={handleBackClick}
         actions={headerActions}
       >
@@ -869,7 +869,7 @@ export const EnvironmentOverridesPage = ({
                   Configure environment-specific settings for your component's
                   containers, such as environment variables and file mounts.
                   These overrides apply only to the{' '}
-                  <strong>{environment.name}</strong> environment.
+                  <strong>{environment.displayName}</strong> environment.
                 </Typography>
               </Box>
             )}
@@ -907,7 +907,7 @@ export const EnvironmentOverridesPage = ({
         onCancel={() => setShowSaveConfirm(false)}
         onConfirm={handleConfirmSave}
         changes={changes}
-        environmentName={environment.name}
+        environmentName={environment.displayName}
         saving={saving}
       />
 

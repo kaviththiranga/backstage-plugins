@@ -9,7 +9,7 @@ export function isAlreadyPromoted(
   targetEnvName: string,
   allEnvironments: Environment[],
 ): boolean {
-  const targetEnv = allEnvironments.find(e => e.name === targetEnvName);
+  const targetEnv = allEnvironments.find(e => e.displayName === targetEnvName);
 
   if (!sourceEnv.deployment.releaseName || !targetEnv?.deployment.releaseName) {
     return false;

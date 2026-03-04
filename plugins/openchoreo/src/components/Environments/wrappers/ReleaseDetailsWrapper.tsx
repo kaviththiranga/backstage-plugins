@@ -22,7 +22,7 @@ export const ReleaseDetailsWrapper = () => {
 
     const decodedName = decodeURIComponent(envName);
     return displayEnvironments.find(
-      e => e.name.toLowerCase() === decodedName.toLowerCase(),
+      e => e.displayName.toLowerCase() === decodedName.toLowerCase(),
     );
   }, [envName, displayEnvironments]);
 

@@ -52,15 +52,16 @@ export const OverridesWrapper = () => {
 
     const decodedName = decodeURIComponent(envName);
 
-    // First try to find by exact name match
+    // First try to find by exact display name match
     let env = environments.find(
-      e => e.name.toLowerCase() === decodedName.toLowerCase(),
+      e => e.displayName.toLowerCase() === decodedName.toLowerCase(),
     );
 
     // If not found and we have a pending action, create a minimal environment object
     // This handles the case where we're deploying to an environment for the first time
     if (!env && pendingAction) {
       env = {
+        displayName: decodedName,
         name: decodedName,
         deployment: {
           releaseName: pendingAction.releaseName,

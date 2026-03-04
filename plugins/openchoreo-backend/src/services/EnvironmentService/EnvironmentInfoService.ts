@@ -279,8 +279,8 @@ export class EnvironmentInfoService implements EnvironmentService {
         path.sourceEnvironmentRef;
       const targets = path.targetEnvironmentRefs.map((ref: any) => ({
         ...ref,
-        name: envNameMap.get(ref.name.toLowerCase()) || ref.name,
-        resourceName: ref.name,
+        displayName: envNameMap.get(ref.name.toLowerCase()) || ref.name,
+        name: ref.name,
       }));
       promotionMap.set(sourceEnv, targets);
     }
@@ -348,8 +348,8 @@ export class EnvironmentInfoService implements EnvironmentService {
 
     const transformedEnv: Environment = {
       uid: envData.uid,
-      name: envName,
-      resourceName: envResourceName,
+      displayName: envName,
+      name: envResourceName,
       bindingName: binding?.name,
       hasComponentTypeOverrides:
         binding?.componentTypeEnvOverrides &&
@@ -367,8 +367,8 @@ export class EnvironmentInfoService implements EnvironmentService {
     // Add promotion targets if they exist
     if (promotionTargets && promotionTargets.length > 0) {
       transformedEnv.promotionTargets = promotionTargets.map((ref: any) => ({
+        displayName: ref.displayName,
         name: ref.name,
-        resourceName: ref.resourceName,
         requiresApproval: ref.requiresApproval,
         isManualApprovalRequired: ref.isManualApprovalRequired,
       }));

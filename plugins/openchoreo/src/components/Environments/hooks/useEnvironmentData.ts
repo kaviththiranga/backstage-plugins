@@ -12,8 +12,8 @@ interface EndpointInfo {
 
 export interface Environment {
   uid?: string;
+  displayName: string;
   name: string;
-  resourceName?: string;
   bindingName?: string;
   hasComponentTypeOverrides?: boolean;
   dataPlaneRef?: string;
@@ -25,8 +25,8 @@ export interface Environment {
   };
   endpoints: EndpointInfo[];
   promotionTargets?: {
+    displayName: string;
     name: string;
-    resourceName?: string;
     requiresApproval?: boolean;
     isManualApprovalRequired?: boolean;
   }[];

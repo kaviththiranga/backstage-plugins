@@ -13,7 +13,7 @@ const DEFAULT_HTTP_PORT = 19080;
 export function useInvokeUrl(
   entity: Entity,
   environmentName: string,
-  resourceName: string | undefined,
+  name: string | undefined,
   releaseName: string | undefined,
   status: 'Ready' | 'NotReady' | 'Failed' | undefined,
   dataPlaneRef: string | undefined,
@@ -57,7 +57,7 @@ export function useInvokeUrl(
           }
         }
 
-        const envName = resourceName || environmentName;
+        const envName = name || environmentName;
         const releaseData = (await client.fetchEnvironmentRelease(
           entity,
           envName,
@@ -77,7 +77,7 @@ export function useInvokeUrl(
     releaseName,
     status,
     environmentName,
-    resourceName,
+    name,
     dataPlaneRef,
     entity,
     client,

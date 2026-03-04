@@ -24,7 +24,7 @@ import { useInvokeUrl } from '../hooks';
  */
 export const EnvironmentCardContent = ({
   environmentName,
-  resourceName,
+  name,
   status,
   lastDeployed,
   image,
@@ -43,7 +43,7 @@ export const EnvironmentCardContent = ({
   const { invokeUrl, loading: loadingInvokeUrl } = useInvokeUrl(
     entity,
     environmentName,
-    resourceName,
+    name,
     releaseName,
     status,
     dataPlaneRef,

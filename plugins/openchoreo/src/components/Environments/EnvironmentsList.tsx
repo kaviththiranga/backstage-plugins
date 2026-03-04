@@ -68,7 +68,7 @@ export const EnvironmentsList = () => {
   // Handler for opening overrides
   const handleOpenOverrides = useCallback(
     (env: Environment) => {
-      navigateToOverrides(env.name);
+      navigateToOverrides(env.displayName);
     },
     [navigateToOverrides],
   );
@@ -76,7 +76,7 @@ export const EnvironmentsList = () => {
   // Handler for opening release details
   const handleOpenReleaseDetails = useCallback(
     (env: Environment) => {
-      navigateToReleaseDetails(env.name);
+      navigateToReleaseDetails(env.displayName);
     },
     [navigateToReleaseDetails],
   );
@@ -92,7 +92,7 @@ export const EnvironmentsList = () => {
       const pendingAction: PendingAction = {
         type: 'promote',
         releaseName,
-        sourceEnvironment: sourceEnv.resourceName ?? sourceEnv.name,
+        sourceEnvironment: sourceEnv.name,
         targetEnvironment: targetEnvName,
       };
 
@@ -121,20 +121,26 @@ export const EnvironmentsList = () => {
 
         {/* Environment Cards */}
         {displayEnvironments.map(env => (
-          <Grid key={env.name} item xs={12} md={3} style={{ display: 'flex' }}>
+          <Grid
+            key={env.displayName}
+            item
+            xs={12}
+            md={3}
+            style={{ display: 'flex' }}
+          >
             <EnvironmentCard
-              environmentName={env.name}
-              resourceName={env.resourceName}
+              environmentName={env.displayName}
+              name={env.name}
               bindingName={env.bindingName}
               hasComponentTypeOverrides={env.hasComponentTypeOverrides}
               dataPlaneRef={env.dataPlaneRef}
               deployment={env.deployment}
               endpoints={env.endpoints}
               promotionTargets={env.promotionTargets}
-              isRefreshing={refreshTracker.isActive(env.name)}
+              isRefreshing={refreshTracker.isActive(env.displayName)}
               isAlreadyPromoted={createPromotionChecker(env)}
               actionTrackers={{ promotionTracker, suspendTracker }}
-              onRefresh={() => handleRefreshEnvironment(env.name)}
+              onRefresh={() => handleRefreshEnvironment(env.displayName)}
               onOpenOverrides={() => handleOpenOverrides(env)}
               onOpenReleaseDetails={() => handleOpenReleaseDetails(env)}
               onPromote={targetName =>
@@ -148,9 +154,7 @@ export const EnvironmentsList = () => {
               }
               onSuspend={() =>
                 suspendTracker
-                  .withTracking(env.name, () =>
-                    handleSuspend(env.resourceName ?? env.name),
-                  )
+                  .withTracking(env.displayName, () => handleSuspend(env.name))
                   .catch(err =>
                     notification.showError(`Error suspending: ${err}`),
                   )

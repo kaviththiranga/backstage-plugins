@@ -44,7 +44,7 @@ export const EnvironmentActions = ({
       {hasMultipleTargets &&
         promotionTargets!.map((target, index) => (
           <Box
-            key={target.name}
+            key={target.displayName}
             display="flex"
             justifyContent="flex-end"
             mb={index < promotionTargets!.length - 1 ? 2 : bindingName ? 2 : 0}
@@ -58,19 +58,19 @@ export const EnvironmentActions = ({
                   disabled={
                     promotePermissionLoading ||
                     !canPromote ||
-                    promotionTracker.isActive(target.name) ||
-                    isAlreadyPromoted(target.name)
+                    promotionTracker.isActive(target.displayName) ||
+                    isAlreadyPromoted(target.displayName)
                   }
-                  onClick={() => onPromote(target.resourceName ?? target.name)}
+                  onClick={() => onPromote(target.name)}
                 >
-                  {isAlreadyPromoted(target.name)
-                    ? `Promoted to ${target.name}`
-                    : promotionTracker.isActive(target.name)
+                  {isAlreadyPromoted(target.displayName)
+                    ? `Promoted to ${target.displayName}`
+                    : promotionTracker.isActive(target.displayName)
                     ? 'Promoting...'
-                    : `Promote to ${target.name}`}
-                  {!isAlreadyPromoted(target.name) &&
+                    : `Promote to ${target.displayName}`}
+                  {!isAlreadyPromoted(target.displayName) &&
                     target.requiresApproval &&
-                    !promotionTracker.isActive(target.name) &&
+                    !promotionTracker.isActive(target.displayName) &&
                     ' (Approval Required)'}
                 </Button>
               </span>
@@ -93,24 +93,25 @@ export const EnvironmentActions = ({
                   disabled={
                     promotePermissionLoading ||
                     !canPromote ||
-                    promotionTracker.isActive(promotionTargets![0].name) ||
-                    isAlreadyPromoted(promotionTargets![0].name)
+                    promotionTracker.isActive(
+                      promotionTargets![0].displayName,
+                    ) ||
+                    isAlreadyPromoted(promotionTargets![0].displayName)
                   }
-                  onClick={() =>
-                    onPromote(
-                      promotionTargets![0].resourceName ??
-                        promotionTargets![0].name,
-                    )
-                  }
+                  onClick={() => onPromote(promotionTargets![0].name)}
                 >
-                  {isAlreadyPromoted(promotionTargets![0].name)
+                  {isAlreadyPromoted(promotionTargets![0].displayName)
                     ? 'Promoted'
-                    : promotionTracker.isActive(promotionTargets![0].name)
+                    : promotionTracker.isActive(
+                        promotionTargets![0].displayName,
+                      )
                     ? 'Promoting...'
                     : 'Promote'}
-                  {!isAlreadyPromoted(promotionTargets![0].name) &&
+                  {!isAlreadyPromoted(promotionTargets![0].displayName) &&
                     promotionTargets![0].requiresApproval &&
-                    !promotionTracker.isActive(promotionTargets![0].name) &&
+                    !promotionTracker.isActive(
+                      promotionTargets![0].displayName,
+                    ) &&
                     ' (Approval Required)'}
                 </Button>
               </span>
