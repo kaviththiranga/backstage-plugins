@@ -13,6 +13,7 @@ import type { PendingAction } from './types';
 import { NotificationBanner, SetupCard, EnvironmentCard } from './components';
 import { useEnvironmentsContext } from './EnvironmentsContext';
 import { isForbiddenError, getErrorMessage } from '../../utils/errorUtils';
+import { EmptyState, ForbiddenState } from '@openchoreo/backstage-plugin-react';
 
 /**
  * List view for the Environments page.
@@ -30,6 +31,7 @@ export const EnvironmentsList = () => {
     autoDeploy,
     autoDeployUpdating,
     onAutoDeployChange,
+    pipelineUnavailable,
   } = useEnvironmentsContext();
 
   const {
@@ -101,6 +103,26 @@ export const EnvironmentsList = () => {
     },
     [navigateToOverrides],
   );
+
+  if (!loading && environments.length === 0) {
+    if (pipelineUnavailable) {
+      return (
+        <ForbiddenState
+          message="You do not have permission to view deployment environments."
+          onRetry={refetch}
+          minHeight="400px"
+        />
+      );
+    }
+    return (
+      <EmptyState
+        title="No environments available"
+        description="No deployment environments were found for this component."
+        action={{ label: 'Retry', onClick: refetch }}
+        minHeight="400px"
+      />
+    );
+  }
 
   return (
     <>
