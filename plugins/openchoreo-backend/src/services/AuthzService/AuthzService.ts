@@ -1,6 +1,7 @@
 import { LoggerService } from '@backstage/backend-plugin-api';
 import {
   createOpenChoreoApiClient,
+  assertApiResponse,
   fetchAllPages,
   getName,
   getDisplayName,
@@ -10,29 +11,6 @@ import {
 // Type definitions from the OpenAPI spec
 export type Entitlement = OpenChoreoComponents['schemas']['Entitlement'];
 export type UserTypeConfig = OpenChoreoComponents['schemas']['UserTypeConfig'];
-
-// Helper to extract error message from API response
-function extractErrorMessage(
-  error: unknown,
-  response: Response,
-  defaultMsg: string,
-): string {
-  // Try to get message from error object (openapi-fetch error response)
-  if (error && typeof error === 'object') {
-    const errObj = error as Record<string, unknown>;
-    if (errObj.message && typeof errObj.message === 'string') {
-      return errObj.message;
-    }
-    // Check for nested error structure
-    if (errObj.error && typeof errObj.error === 'object') {
-      const nestedErr = errObj.error as Record<string, unknown>;
-      if (nestedErr.message && typeof nestedErr.message === 'string') {
-        return nestedErr.message;
-      }
-    }
-  }
-  return `${defaultMsg}: ${response.status} ${response.statusText}`;
-}
 
 export class AuthzService {
   private readonly logger: LoggerService;
@@ -64,14 +42,7 @@ export class AuthzService {
         '/api/v1/authz/actions',
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch actions',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'fetch actions');
 
       this.logger.debug(`Successfully fetched ${data?.length || 0} actions`);
 
@@ -93,14 +64,7 @@ export class AuthzService {
       const client = this.createNewClient(userToken);
       const { data, error, response } = await client.GET('/api/v1/user-types');
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch user types',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'fetch user types');
 
       this.logger.debug(`Successfully fetched ${data?.length || 0} user types`);
 
@@ -130,11 +94,7 @@ export class AuthzService {
             params: { query: { limit: 100, cursor } },
           })
           .then(res => {
-            if (res.error || !res.response.ok) {
-              throw new Error(
-                `Failed to fetch namespaces: ${res.response.status} ${res.response.statusText}`,
-              );
-            }
+            assertApiResponse(res, 'fetch namespaces');
             return res.data;
           }),
       );
@@ -171,11 +131,7 @@ export class AuthzService {
             },
           })
           .then(res => {
-            if (res.error || !res.response.ok) {
-              throw new Error(
-                `Failed to fetch projects: ${res.response.status} ${res.response.statusText}`,
-              );
-            }
+            assertApiResponse(res, 'fetch projects');
             return res.data;
           }),
       );
@@ -219,11 +175,7 @@ export class AuthzService {
             },
           })
           .then(res => {
-            if (res.error || !res.response.ok) {
-              throw new Error(
-                `Failed to fetch components: ${res.response.status} ${res.response.statusText}`,
-              );
-            }
+            assertApiResponse(res, 'fetch components');
             return res.data;
           }),
       );
@@ -262,14 +214,7 @@ export class AuthzService {
         '/api/v1/clusterroles',
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch cluster roles',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'fetch cluster roles');
 
       this.logger.debug(
         `Successfully fetched ${data?.items?.length || 0} cluster roles`,
@@ -305,14 +250,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch cluster role',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'fetch cluster role');
 
       // Transform K8s-style to flat shape
       const role = {
@@ -350,14 +288,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to create cluster role',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'create cluster role');
 
       this.logger.debug(`Successfully created cluster role: ${role.name}`);
       return { data };
@@ -392,14 +323,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to update cluster role',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'update cluster role');
 
       this.logger.debug(`Successfully updated cluster role: ${name}`);
       return { data: data as any };
@@ -421,14 +345,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to delete cluster role',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ error, response }, 'delete cluster role');
 
       this.logger.debug(`Successfully deleted cluster role: ${name}`);
     } catch (err) {
@@ -456,14 +373,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch namespace roles',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'fetch namespace roles');
 
       this.logger.debug(
         `Successfully fetched ${data?.items?.length || 0} namespace roles`,
@@ -498,14 +408,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch namespace role',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'fetch namespace role');
 
       const role = {
         name: (data as any).metadata?.name ?? name,
@@ -553,14 +456,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to create namespace role',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'create namespace role');
 
       this.logger.debug(
         `Successfully created namespace role: ${role.namespace}/${role.name}`,
@@ -600,14 +496,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to update namespace role',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ data, error, response }, 'update namespace role');
 
       this.logger.debug(
         `Successfully updated namespace role: ${namespace}/${name}`,
@@ -637,14 +526,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to delete namespace role',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ error, response }, 'delete namespace role');
 
       this.logger.debug(
         `Successfully deleted namespace role: ${namespace}/${name}`,
@@ -679,14 +561,10 @@ export class AuthzService {
         '/api/v1/clusterrolebindings',
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch cluster role bindings',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse(
+        { data, error, response },
+        'fetch cluster role bindings',
+      );
 
       this.logger.debug(
         `Successfully fetched ${
@@ -737,14 +615,10 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch cluster role binding',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse(
+        { data, error, response },
+        'fetch cluster role binding',
+      );
 
       return {
         data: {
@@ -785,14 +659,10 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to create cluster role binding',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse(
+        { data, error, response },
+        'create cluster role binding',
+      );
 
       this.logger.debug(
         `Successfully created cluster role binding: ${binding.name}`,
@@ -838,14 +708,10 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to update cluster role binding',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse(
+        { data, error, response },
+        'update cluster role binding',
+      );
 
       this.logger.debug(`Successfully updated cluster role binding: ${name}`);
       return {
@@ -882,14 +748,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to delete cluster role binding',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ error, response }, 'delete cluster role binding');
 
       this.logger.debug(`Successfully deleted cluster role binding: ${name}`);
     } catch (err) {
@@ -931,14 +790,10 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch namespace role bindings',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse(
+        { data, error, response },
+        'fetch namespace role bindings',
+      );
 
       this.logger.debug(
         `Successfully fetched ${
@@ -1004,14 +859,10 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to fetch namespace role binding',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse(
+        { data, error, response },
+        'fetch namespace role binding',
+      );
 
       return {
         data: {
@@ -1074,14 +925,10 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to create namespace role binding',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse(
+        { data, error, response },
+        'create namespace role binding',
+      );
 
       this.logger.debug(
         `Successfully created namespace role binding: ${binding.namespace}/${binding.name}`,
@@ -1145,14 +992,10 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to update namespace role binding',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse(
+        { data, error, response },
+        'update namespace role binding',
+      );
 
       this.logger.debug(
         `Successfully updated namespace role binding: ${namespace}/${name}`,
@@ -1203,14 +1046,7 @@ export class AuthzService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMsg = extractErrorMessage(
-          error,
-          response,
-          'Failed to delete namespace role binding',
-        );
-        throw new Error(errorMsg);
-      }
+      assertApiResponse({ error, response }, 'delete namespace role binding');
 
       this.logger.debug(
         `Successfully deleted namespace role binding: ${namespace}/${name}`,

@@ -7,6 +7,7 @@ import {
 import { Expand } from '@backstage/types';
 import {
   createOpenChoreoAIRCAAgentApiClient,
+  assertApiResponse,
   AIRCAAgentComponents,
   ObservabilityUrlResolver,
 } from '@openchoreo/openchoreo-client-node';
@@ -178,15 +179,7 @@ export class RCAAgentService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMessage = error
-          ? JSON.stringify(error)
-          : `HTTP ${response.status} ${response.statusText}`;
-        this.logger.error(
-          `Failed to fetch RCA reports for project ${projectName}: ${errorMessage}`,
-        );
-        throw new Error(`Failed to fetch RCA reports: ${errorMessage}`);
-      }
+      assertApiResponse({ data, error, response }, 'fetch RCA reports');
 
       this.logger.debug(
         `Successfully fetched RCA reports for project ${projectName}: ${
@@ -249,15 +242,7 @@ export class RCAAgentService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMessage = error
-          ? JSON.stringify(error)
-          : `HTTP ${response.status} ${response.statusText}`;
-        this.logger.error(
-          `Failed to fetch RCA report ${reportId}: ${errorMessage}`,
-        );
-        throw new Error(`Failed to fetch RCA report: ${errorMessage}`);
-      }
+      assertApiResponse({ data, error, response }, 'fetch RCA report');
 
       this.logger.debug(`Successfully fetched RCA report ${reportId}`);
 
@@ -266,7 +251,7 @@ export class RCAAgentService {
         `RCA report fetch completed for ${reportId} (${totalTime}ms)`,
       );
 
-      return data;
+      return data!;
     } catch (error: unknown) {
       const totalTime = Date.now() - startTime;
       this.logger.error(

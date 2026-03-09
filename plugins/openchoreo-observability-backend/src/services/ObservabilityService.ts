@@ -8,6 +8,7 @@ import { Expand } from '@backstage/types';
 import {
   createOpenChoreoApiClient,
   createObservabilityClientWithUrl,
+  assertApiResponse,
   ObservabilityUrlResolver,
   ObservabilityComponents,
 } from '@openchoreo/openchoreo-client-node';
@@ -43,24 +44,6 @@ export class ObservabilityNotConfiguredError extends Error {
     super(`Observability is not configured for component ${componentId}`);
     this.name = 'ObservabilityNotConfiguredError';
   }
-}
-
-/**
- * Extracts the actual error message from an openapi-fetch error object
- */
-function extractErrorMessage(error: unknown, response: Response): string {
-  if (!error) {
-    return `HTTP ${response.status} ${response.statusText}`;
-  }
-
-  const err = error as Record<string, unknown>;
-  if (typeof err.error === 'string') {
-    return err.error;
-  }
-  if (typeof err.message === 'string') {
-    return err.message;
-  }
-  return JSON.stringify(error);
 }
 
 export class ObservabilityService {
@@ -319,17 +302,11 @@ export class ObservabilityService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMessage = extractErrorMessage(error, response);
-        this.logger.error(
-          `Failed to fetch runtime logs for component ${componentName}: ${errorMessage}`,
-        );
-        throw new Error(`Failed to fetch runtime logs: ${errorMessage}`);
-      }
+      assertApiResponse({ data, error, response }, 'fetch runtime logs');
 
       this.logger.debug(
         `Successfully fetched ${
-          data.logs?.length || 0
+          data!.logs?.length || 0
         } runtime logs for component ${componentName}`,
       );
 
@@ -340,14 +317,14 @@ export class ObservabilityService {
 
       return {
         logs:
-          data.logs?.map(rawLog => ({
+          data!.logs?.map(rawLog => ({
             timestamp: rawLog.timestamp || '',
             log: rawLog.log || '',
             level: (rawLog as any).level || 'INFO',
             metadata: (rawLog as any).metadata,
           })) || [],
-        total: data.total || 0,
-        tookMs: data.tookMs || 0,
+        total: data!.total || 0,
+        tookMs: data!.tookMs || 0,
       };
     } catch (error: unknown) {
       if (error instanceof ObservabilityNotConfiguredError) {
@@ -444,21 +421,11 @@ export class ObservabilityService {
         }),
       ]);
 
-      if (error || !response.ok) {
-        const errorMessage = extractErrorMessage(error, response);
-        this.logger.error(
-          `Failed to fetch resource metrics for component ${componentName}: ${errorMessage}`,
-        );
-        throw new Error(`Failed to fetch metrics: ${errorMessage}`);
-      }
-
-      if (httpError || !httpResponse.ok) {
-        const errorMessage = extractErrorMessage(httpError, httpResponse);
-        this.logger.error(
-          `Failed to fetch HTTP metrics for component ${componentName}: ${errorMessage}`,
-        );
-        throw new Error(`Failed to fetch HTTP metrics: ${errorMessage}`);
-      }
+      assertApiResponse({ data, error, response }, 'fetch resource metrics');
+      assertApiResponse(
+        { data: httpData, error: httpError, response: httpResponse },
+        'fetch HTTP metrics',
+      );
 
       const totalTime = Date.now() - startTime;
       this.logger.debug(
@@ -579,13 +546,7 @@ export class ObservabilityService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMessage = extractErrorMessage(error, response);
-        this.logger.error(
-          `Failed to fetch traces for project ${projectName}: ${errorMessage}`,
-        );
-        throw new Error(`Failed to fetch traces: ${errorMessage}`);
-      }
+      assertApiResponse({ data, error, response }, 'fetch traces');
 
       const totalTime = Date.now() - startTime;
       this.logger.debug(
@@ -686,15 +647,10 @@ export class ObservabilityService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMessage = extractErrorMessage(error, response);
-        this.logger.error(
-          `Failed to fetch spans for trace ${traceId}: ${errorMessage}`,
-        );
-        throw new Error(
-          `Failed to fetch spans for trace ${traceId}: ${errorMessage}`,
-        );
-      }
+      assertApiResponse(
+        { data, error, response },
+        `fetch spans for trace ${traceId}`,
+      );
 
       const totalTime = Date.now() - startTime;
       this.logger.debug(
@@ -760,15 +716,10 @@ export class ObservabilityService {
         },
       );
 
-      if (error || !response.ok) {
-        const errorMessage = extractErrorMessage(error, response);
-        this.logger.error(
-          `Failed to fetch details for span ${spanId}: ${errorMessage}`,
-        );
-        throw new Error(
-          `Failed to fetch span details for span ${spanId}: ${errorMessage}`,
-        );
-      }
+      assertApiResponse(
+        { data, error, response },
+        `fetch span details for span ${spanId}`,
+      );
 
       const totalTime = Date.now() - startTime;
       this.logger.debug(

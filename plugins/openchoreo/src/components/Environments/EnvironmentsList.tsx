@@ -12,6 +12,7 @@ import type { Environment } from './hooks';
 import type { PendingAction } from './types';
 import { NotificationBanner, SetupCard, EnvironmentCard } from './components';
 import { useEnvironmentsContext } from './EnvironmentsContext';
+import { isForbiddenError, getErrorMessage } from '../../utils/errorUtils';
 
 /**
  * List view for the Environments page.
@@ -143,7 +144,11 @@ export const EnvironmentsList = () => {
                     handlePromoteWithOverridesCheck(env, targetName),
                   )
                   .catch(err =>
-                    notification.showError(`Error promoting: ${err}`),
+                    notification.showError(
+                      isForbiddenError(err)
+                        ? 'You do not have permission to promote. Contact your administrator.'
+                        : `Error promoting: ${getErrorMessage(err)}`,
+                    ),
                   )
               }
               onSuspend={() =>
@@ -152,7 +157,11 @@ export const EnvironmentsList = () => {
                     handleSuspend(env.resourceName ?? env.name),
                   )
                   .catch(err =>
-                    notification.showError(`Error suspending: ${err}`),
+                    notification.showError(
+                      isForbiddenError(err)
+                        ? 'You do not have permission to suspend. Contact your administrator.'
+                        : `Error suspending: ${getErrorMessage(err)}`,
+                    ),
                   )
               }
             />
