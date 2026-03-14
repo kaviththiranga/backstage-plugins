@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { useApi } from '@backstage/core-plugin-api';
 import { openChoreoClientApiRef } from '../../../api/OpenChoreoClientApi';
@@ -11,6 +11,10 @@ interface DeploymentStatusState {
   error: Error | null;
   isForbidden: boolean;
   refreshing: boolean;
+}
+
+function hasNotReadyEnv(environments: Environment[]): boolean {
+  return environments.some(env => env.deployment?.status === 'NotReady');
 }
 
 /**
@@ -28,19 +32,37 @@ export function useDeploymentStatus() {
     refreshing: false,
   });
 
+  const shouldPollRef = useRef(false);
+
   const fetchData = useCallback(async () => {
     try {
       const environments = (await client.fetchEnvironmentInfo(
         entity,
       )) as Environment[];
 
-      setState(prev => ({
-        ...prev,
-        environments,
-        loading: false,
-        error: null,
-      }));
+      shouldPollRef.current = hasNotReadyEnv(environments);
+
+      setState(prev => {
+        const statusKey = (envs: Environment[]) =>
+          envs.map(e => `${e.name}:${e.deployment?.status ?? ''}`).join(',');
+
+        if (
+          !prev.loading &&
+          !prev.error &&
+          statusKey(prev.environments) === statusKey(environments)
+        ) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          environments,
+          loading: false,
+          error: null,
+        };
+      });
     } catch (err) {
+      shouldPollRef.current = false;
       setState(prev => ({
         ...prev,
         loading: false,
@@ -66,16 +88,14 @@ export function useDeploymentStatus() {
 
   // Poll if any environment has NotReady status
   useEffect(() => {
-    const hasNotReady = state.environments.some(
-      env => env.deployment?.status === 'NotReady',
-    );
-    if (!hasNotReady) return undefined;
+    if (!shouldPollRef.current) return undefined;
 
     const intervalId = setInterval(() => {
       fetchData();
     }, 10000);
 
     return () => clearInterval(intervalId);
+    // Re-evaluate polling when environments change (new reference = data changed)
   }, [state.environments, fetchData]);
 
   return {

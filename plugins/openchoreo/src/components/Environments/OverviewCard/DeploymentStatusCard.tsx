@@ -23,32 +23,70 @@ import { useDeploymentStatus } from './useDeploymentStatus';
 import { useOverviewCardStyles } from './styles';
 import type { Environment } from '../hooks/useEnvironmentData';
 
-function getStatusIcon(env: Environment) {
+type StatusIconClass =
+  | 'statusIconReady'
+  | 'statusIconWarning'
+  | 'statusIconError';
+
+interface RefreshButtonProps {
+  tooltip: string;
+  onClick: () => void;
+  disabled: boolean;
+  refreshing: boolean;
+}
+
+const RefreshButton = ({
+  tooltip,
+  onClick,
+  disabled,
+  refreshing,
+}: RefreshButtonProps) => (
+  <Tooltip title={tooltip}>
+    <IconButton
+      size="small"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={tooltip.toLowerCase()}
+    >
+      {refreshing ? (
+        <CircularProgress size={18} />
+      ) : (
+        <RefreshIcon fontSize="small" />
+      )}
+    </IconButton>
+  </Tooltip>
+);
+
+function getStatusIcon(env: Environment): {
+  Icon: typeof CheckCircleIcon | typeof WarningIcon | typeof ErrorIcon | null;
+  iconClass: StatusIconClass | null;
+  tooltipSuffix: string;
+} {
   const status = env.deployment?.status;
   if (!status)
-    return { Icon: null, iconClass: '', tooltipSuffix: 'Not deployed' };
+    return { Icon: null, iconClass: null, tooltipSuffix: 'Not deployed' };
 
   switch (status) {
     case 'Ready':
       return {
         Icon: CheckCircleIcon,
-        iconClass: 'statusIconReady' as const,
+        iconClass: 'statusIconReady',
         tooltipSuffix: 'Deployed (Ready)',
       };
     case 'NotReady':
       return {
         Icon: WarningIcon,
-        iconClass: 'statusIconWarning' as const,
+        iconClass: 'statusIconWarning',
         tooltipSuffix: 'Deployed (NotReady)',
       };
     case 'Failed':
       return {
         Icon: ErrorIcon,
-        iconClass: 'statusIconError' as const,
+        iconClass: 'statusIconError',
         tooltipSuffix: 'Deployed (Failed)',
       };
     default:
-      return { Icon: null, iconClass: '', tooltipSuffix: 'Not deployed' };
+      return { Icon: null, iconClass: null, tooltipSuffix: 'Not deployed' };
   }
 }
 
@@ -85,20 +123,12 @@ export const DeploymentStatusCard = () => {
           message="You do not have permission to view deployment information."
         />
         <Box className={classes.actions}>
-          <Tooltip title="Retry">
-            <IconButton
-              size="small"
-              onClick={refresh}
-              disabled={refreshing}
-              aria-label="retry"
-            >
-              {refreshing ? (
-                <CircularProgress size={18} />
-              ) : (
-                <RefreshIcon fontSize="small" />
-              )}
-            </IconButton>
-          </Tooltip>
+          <RefreshButton
+            tooltip="Retry"
+            onClick={refresh}
+            disabled={refreshing}
+            refreshing={refreshing}
+          />
         </Box>
       </Card>
     );
@@ -165,7 +195,7 @@ export const DeploymentStatusCard = () => {
                   label={
                     <Box display="flex" alignItems="center" gridGap={4}>
                       <Typography variant="body2">{env.name}</Typography>
-                      {Icon && (
+                      {Icon && iconClass && (
                         <Icon
                           className={classes[iconClass]}
                           style={{ fontSize: '18px' }}
@@ -188,20 +218,12 @@ export const DeploymentStatusCard = () => {
             Go to Deploy
           </Button>
         </Link>
-        <Tooltip title="Refresh status">
-          <IconButton
-            size="small"
-            onClick={refresh}
-            disabled={refreshing}
-            aria-label="refresh"
-          >
-            {refreshing ? (
-              <CircularProgress size={18} />
-            ) : (
-              <RefreshIcon fontSize="small" />
-            )}
-          </IconButton>
-        </Tooltip>
+        <RefreshButton
+          tooltip="Refresh status"
+          onClick={refresh}
+          disabled={refreshing}
+          refreshing={refreshing}
+        />
       </Box>
     </Card>
   );
