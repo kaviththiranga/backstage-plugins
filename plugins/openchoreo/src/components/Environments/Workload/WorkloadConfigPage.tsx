@@ -61,12 +61,11 @@ const useStyles = makeStyles(theme => ({
 
 interface WorkloadConfigPageProps {
   onBack: () => void;
-  /** Called after workload is applied and release is created, navigates to overrides */
-  onNext: (releaseName: string, targetEnvironment: string) => void;
-  /** The lowest environment name (first in deployment pipeline) */
-  lowestEnvironment: string;
+  /** Called after workload + traits/parameters are saved successfully */
+  onSaved: () => void;
   /**
-   * Data plane of the lowest environment.
+   * Data plane of the lowest environment, used by the workload editor for
+   * endpoint previews.
    */
   lowestEnvDataPlane?: { kind?: string; name?: string };
   /** Initial tab to display (from URL) */
@@ -77,8 +76,7 @@ interface WorkloadConfigPageProps {
 
 export const WorkloadConfigPage = ({
   onBack,
-  onNext,
-  lowestEnvironment,
+  onSaved,
   lowestEnvDataPlane,
   initialTab,
   onTabChange,
@@ -435,31 +433,28 @@ export const WorkloadConfigPage = ({
   const hasAnyChanges =
     workloadChanges.hasChanges || hasTraitChanges || hasParameterChanges;
 
-  const handleNext = async () => {
+  const handleSave = async () => {
     if (!workloadResource) {
       return;
     }
     if (!isFromSource && !spec?.container?.image?.trim()) {
-      setSaveError('A container image is required before proceeding.');
+      setSaveError('A container image is required before saving.');
       return;
     }
     setIsProcessing(true);
     setSaveError(null);
     try {
-      // Step 1: Apply workload (if changed) — send the full resource as-is
       if (workloadChanges.hasChanges) {
         const result = await client.applyWorkload(
           entity,
           workloadResource,
           isNewWorkload,
         );
-        // Advance the saved baseline so retries don't reapply the same change
         setWorkloadResource(result);
         setInitialResource(JSON.parse(JSON.stringify(result)));
         setIsNewWorkload(false);
       }
 
-      // Step 2: Update component config (traits/parameters) if changed
       if (hasTraitChanges || hasParameterChanges) {
         await client.updateComponentConfig(
           entity,
@@ -468,19 +463,9 @@ export const WorkloadConfigPage = ({
         );
       }
 
-      // Step 3: Create ComponentRelease
-      const releaseResponse = await client.createComponentRelease(entity);
-
-      if (!releaseResponse.data?.name) {
-        throw new Error('Failed to create release: no release name returned');
-      }
-
-      const releaseName = releaseResponse.data.name;
-
-      // Step 4: Navigate to overrides page
       setIsProcessing(false);
       allowNavigationRef.current = true;
-      onNext(releaseName, lowestEnvironment);
+      onSaved();
     } catch (e: unknown) {
       setIsProcessing(false);
       setSaveError(getErrorMessage(e));
@@ -495,20 +480,20 @@ export const WorkloadConfigPage = ({
     if (isFromSource && !hasImage) {
       return 'Build your application first to generate a container image.';
     }
-    return 'Configure your workload to enable deployment.';
+    return 'Configure your workload, then return to the Set up panel to create a release.';
   };
 
   const handleButtonClick = () => {
     if (hasAnyChanges) {
       setShowConfirmDialog(true);
     } else {
-      handleNext();
+      onBack();
     }
   };
 
   const handleConfirmSave = () => {
     setShowConfirmDialog(false);
-    handleNext();
+    handleSave();
   };
 
   const handleBackClick = () => {
@@ -520,9 +505,9 @@ export const WorkloadConfigPage = ({
   };
 
   const getButtonText = () => {
-    if (isProcessing) return 'Processing...';
-    if (hasAnyChanges) return 'Save & Next';
-    return 'Next';
+    if (isProcessing) return 'Saving...';
+    if (hasAnyChanges) return 'Save workload';
+    return 'Done';
   };
 
   const totalChanges =
