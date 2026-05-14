@@ -6,6 +6,63 @@ import {
 } from '@openchoreo/backstage-plugin-react';
 import { EnvironmentActionsProps } from '../types';
 
+interface PromoteButtonProps {
+  targetName: string;
+  resourceName?: string;
+  requiresApproval?: boolean;
+  isPromoting: boolean;
+  isAlreadyPromoted: boolean;
+  isFullWidth?: boolean;
+  onPromote: () => void;
+}
+
+/**
+ * Single promote button — has its own permission hook so each promotion
+ * target is evaluated against its own environment (honors ABAC
+ * `resource.environment` per openchoreo#3408).
+ */
+const PromoteButton = ({
+  targetName,
+  isPromoting,
+  isAlreadyPromoted,
+  isFullWidth,
+  requiresApproval,
+  onPromote,
+}: PromoteButtonProps) => {
+  const { canDeploy, loading, deniedTooltip } = useDeployPermission(targetName);
+
+  const label = isAlreadyPromoted
+    ? isFullWidth
+      ? `Promoted to ${targetName}`
+      : 'Promoted'
+    : isPromoting
+    ? 'Promoting...'
+    : isFullWidth
+    ? `Promote to ${targetName}`
+    : 'Promote';
+
+  return (
+    <Tooltip title={deniedTooltip}>
+      <span>
+        <Button
+          style={isFullWidth ? undefined : { marginRight: '8px' }}
+          variant="contained"
+          color="primary"
+          size="small"
+          disabled={loading || !canDeploy || isPromoting || isAlreadyPromoted}
+          onClick={onPromote}
+        >
+          {label}
+          {!isAlreadyPromoted &&
+            requiresApproval &&
+            !isPromoting &&
+            ' (Approval Required)'}
+        </Button>
+      </span>
+    </Tooltip>
+  );
+};
+
 /**
  * Action buttons for promotion, undeployment, and redeployment of environment deployments
  */
@@ -22,19 +79,13 @@ export const EnvironmentActions = ({
   onSuspend,
   onRedeploy,
 }: EnvironmentActionsProps) => {
-  // Check if user has permission to promote (uses deploy permission)
-  const {
-    canDeploy: canPromote,
-    loading: promotePermissionLoading,
-    deniedTooltip,
-  } = useDeployPermission();
-
-  // Check if user has permission to undeploy/redeploy (uses releasebinding update permission)
+  // Undeploy/redeploy acts on the current environment, so its permission is
+  // evaluated against `environmentName`.
   const {
     canUndeploy,
     loading: undeployPermissionLoading,
     deniedTooltip: undeployDeniedTooltip,
-  } = useUndeployPermission();
+  } = useUndeployPermission(environmentName);
 
   const isUndeployed = statusReason === 'ResourcesUndeployed';
 
@@ -63,32 +114,15 @@ export const EnvironmentActions = ({
             justifyContent="flex-end"
             mb={index < promotionTargets!.length - 1 ? 2 : bindingName ? 2 : 0}
           >
-            <Tooltip title={deniedTooltip}>
-              <span>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  disabled={
-                    promotePermissionLoading ||
-                    !canPromote ||
-                    promotionTracker.isActive(target.name) ||
-                    isAlreadyPromoted(target.name)
-                  }
-                  onClick={() => onPromote(target.resourceName ?? target.name)}
-                >
-                  {isAlreadyPromoted(target.name)
-                    ? `Promoted to ${target.name}`
-                    : promotionTracker.isActive(target.name)
-                    ? 'Promoting...'
-                    : `Promote to ${target.name}`}
-                  {!isAlreadyPromoted(target.name) &&
-                    target.requiresApproval &&
-                    !promotionTracker.isActive(target.name) &&
-                    ' (Approval Required)'}
-                </Button>
-              </span>
-            </Tooltip>
+            <PromoteButton
+              targetName={target.name}
+              resourceName={target.resourceName}
+              requiresApproval={target.requiresApproval}
+              isPromoting={promotionTracker.isActive(target.name)}
+              isAlreadyPromoted={isAlreadyPromoted(target.name)}
+              isFullWidth
+              onPromote={() => onPromote(target.resourceName ?? target.name)}
+            />
           </Box>
         ))}
 
@@ -97,38 +131,19 @@ export const EnvironmentActions = ({
         <Box display="flex" flexWrap="wrap" justifyContent="flex-end">
           {/* Single promotion button */}
           {hasSingleTarget && (
-            <Tooltip title={deniedTooltip}>
-              <span>
-                <Button
-                  style={{ marginRight: '8px' }}
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  disabled={
-                    promotePermissionLoading ||
-                    !canPromote ||
-                    promotionTracker.isActive(promotionTargets![0].name) ||
-                    isAlreadyPromoted(promotionTargets![0].name)
-                  }
-                  onClick={() =>
-                    onPromote(
-                      promotionTargets![0].resourceName ??
-                        promotionTargets![0].name,
-                    )
-                  }
-                >
-                  {isAlreadyPromoted(promotionTargets![0].name)
-                    ? 'Promoted'
-                    : promotionTracker.isActive(promotionTargets![0].name)
-                    ? 'Promoting...'
-                    : 'Promote'}
-                  {!isAlreadyPromoted(promotionTargets![0].name) &&
-                    promotionTargets![0].requiresApproval &&
-                    !promotionTracker.isActive(promotionTargets![0].name) &&
-                    ' (Approval Required)'}
-                </Button>
-              </span>
-            </Tooltip>
+            <PromoteButton
+              targetName={promotionTargets![0].name}
+              resourceName={promotionTargets![0].resourceName}
+              requiresApproval={promotionTargets![0].requiresApproval}
+              isPromoting={promotionTracker.isActive(promotionTargets![0].name)}
+              isAlreadyPromoted={isAlreadyPromoted(promotionTargets![0].name)}
+              onPromote={() =>
+                onPromote(
+                  promotionTargets![0].resourceName ??
+                    promotionTargets![0].name,
+                )
+              }
+            />
           )}
 
           {/* Undeploy / Redeploy button - show whenever there's a binding */}

@@ -43,6 +43,15 @@ const ObservabilityTracesContent = () => {
     environments: environments as Environment[],
   });
 
+  // Per-environment permission (ABAC `resource.environment`) — gates the
+  // traces content once an environment is selected. See openchoreo#3408.
+  const {
+    canViewTraces: canViewTracesForEnv,
+    loading: envPermissionLoading,
+    deniedTooltip: envPermissionDenied,
+    permissionName: envPermissionName,
+  } = useTracesPermission(filters.environment?.name);
+
   const {
     traces,
     total,
@@ -132,20 +141,34 @@ const ObservabilityTracesContent = () => {
             componentsLoading={componentsLoading}
           />
 
-          {tracesError && renderError(tracesError)}
+          {filters.environment &&
+            !envPermissionLoading &&
+            !canViewTracesForEnv && (
+              <ForbiddenState
+                message={envPermissionDenied}
+                permissionName={envPermissionName}
+                variant="compact"
+              />
+            )}
 
-          <TracesActions
-            totalCount={total}
-            disabled={tracesLoading}
-            onRefresh={handleRefresh}
-          />
+          {canViewTracesForEnv && tracesError && renderError(tracesError)}
 
-          <TracesTable
-            traces={traces}
-            traceSpans={traceSpans}
-            spanDetails={spanDetails}
-            loading={tracesLoading}
-          />
+          {canViewTracesForEnv && (
+            <TracesActions
+              totalCount={total}
+              disabled={tracesLoading}
+              onRefresh={handleRefresh}
+            />
+          )}
+
+          {canViewTracesForEnv && (
+            <TracesTable
+              traces={traces}
+              traceSpans={traceSpans}
+              spanDetails={spanDetails}
+              loading={tracesLoading}
+            />
+          )}
         </>
       )}
     </Box>

@@ -54,6 +54,15 @@ const ObservabilityMetricsContent = () => {
     environments: environments as Environment[],
   });
 
+  // Per-environment permission (ABAC `resource.environment`) — gates the
+  // metrics content and the fetch once an env is selected. See openchoreo#3408.
+  const {
+    canViewMetrics: canViewMetricsForEnv,
+    loading: envPermissionLoading,
+    deniedTooltip: envPermissionDenied,
+    permissionName: envPermissionName,
+  } = useMetricsPermission(filters.environment?.name);
+
   // Fetch metrics using the custom hook
   const {
     metrics,
@@ -80,12 +89,22 @@ const ObservabilityMetricsContent = () => {
       JSON.stringify(previousFiltersRef.current) !==
       JSON.stringify(currentFilters);
 
-    if (filters.environment && filters.timeRange && filtersChanged) {
+    if (
+      filters.environment &&
+      filters.timeRange &&
+      canViewMetricsForEnv &&
+      filtersChanged
+    ) {
       fetchMetrics(true);
     }
 
     previousFiltersRef.current = currentFilters;
-  }, [filters.environment, filters.timeRange, fetchMetrics]);
+  }, [
+    filters.environment,
+    filters.timeRange,
+    fetchMetrics,
+    canViewMetricsForEnv,
+  ]);
 
   const handleFiltersChange = (newFilters: Partial<typeof filters>) => {
     updateFilters(newFilters);
@@ -143,69 +162,89 @@ const ObservabilityMetricsContent = () => {
             environments={environments as Environment[]}
             disabled={isLoading}
           />
-          {metricsError && renderError(metricsError)}
-          <MetricsActions onRefresh={handleRefresh} disabled={metricsLoading} />
-          <Grid container spacing={4} className={classes.metricsGridContainer}>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardHeader title="CPU Usage" />
-                <Divider />
-                <CardContent>
-                  <MetricGraphByComponent
-                    usageData={metrics?.cpuUsage || ({} as CpuUsageMetrics)}
-                    usageType="cpu"
-                    timeRange={filters.timeRange}
-                  />
-                </CardContent>
-              </Card>
+          {filters.environment &&
+            !envPermissionLoading &&
+            !canViewMetricsForEnv && (
+              <ForbiddenState
+                message={envPermissionDenied}
+                permissionName={envPermissionName}
+                variant="compact"
+              />
+            )}
+          {canViewMetricsForEnv && metricsError && renderError(metricsError)}
+          {canViewMetricsForEnv && (
+            <MetricsActions
+              onRefresh={handleRefresh}
+              disabled={metricsLoading}
+            />
+          )}
+          {canViewMetricsForEnv && (
+            <Grid
+              container
+              spacing={4}
+              className={classes.metricsGridContainer}
+            >
+              <Grid item xs={12} md={6}>
+                <Card>
+                  <CardHeader title="CPU Usage" />
+                  <Divider />
+                  <CardContent>
+                    <MetricGraphByComponent
+                      usageData={metrics?.cpuUsage || ({} as CpuUsageMetrics)}
+                      usageType="cpu"
+                      timeRange={filters.timeRange}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Card>
+                  <CardHeader title="Memory Usage" />
+                  <Divider />
+                  <CardContent>
+                    <MetricGraphByComponent
+                      usageData={
+                        metrics?.memoryUsage || ({} as MemoryUsageMetrics)
+                      }
+                      usageType="memory"
+                      timeRange={filters.timeRange}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Card>
+                  <CardHeader title="Network Throughput" />
+                  <Divider />
+                  <CardContent>
+                    <MetricGraphByComponent
+                      usageData={
+                        metrics?.networkThroughput ||
+                        ({} as NetworkThroughputMetrics)
+                      }
+                      usageType="networkThroughput"
+                      timeRange={filters.timeRange}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Card>
+                  <CardHeader title="Network Latency" />
+                  <Divider />
+                  <CardContent>
+                    <MetricGraphByComponent
+                      usageData={
+                        metrics?.networkLatency || ({} as NetworkLatencyMetrics)
+                      }
+                      usageType="networkLatency"
+                      timeRange={filters.timeRange}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardHeader title="Memory Usage" />
-                <Divider />
-                <CardContent>
-                  <MetricGraphByComponent
-                    usageData={
-                      metrics?.memoryUsage || ({} as MemoryUsageMetrics)
-                    }
-                    usageType="memory"
-                    timeRange={filters.timeRange}
-                  />
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardHeader title="Network Throughput" />
-                <Divider />
-                <CardContent>
-                  <MetricGraphByComponent
-                    usageData={
-                      metrics?.networkThroughput ||
-                      ({} as NetworkThroughputMetrics)
-                    }
-                    usageType="networkThroughput"
-                    timeRange={filters.timeRange}
-                  />
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardHeader title="Network Latency" />
-                <Divider />
-                <CardContent>
-                  <MetricGraphByComponent
-                    usageData={
-                      metrics?.networkLatency || ({} as NetworkLatencyMetrics)
-                    }
-                    usageType="networkLatency"
-                    timeRange={filters.timeRange}
-                  />
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+          )}
         </>
       )}
     </Box>

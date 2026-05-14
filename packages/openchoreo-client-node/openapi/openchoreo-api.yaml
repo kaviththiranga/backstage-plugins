@@ -8848,9 +8848,24 @@ components:
           description: Full resource path
           example: namespace/acme/project/payment
         constraints:
-          type: object
-          description: Additional instance-level restrictions
-          additionalProperties: true
+          $ref: '#/components/schemas/CapabilityConstraints'
+
+    CapabilityConstraints:
+      type: object
+      description: >
+        ABAC constraints that gate access to the resource. Multiple expressions
+        are OR'd — access is granted when any one of them evaluates to true.
+        Clients that cannot evaluate CEL must delegate to POST /api/v1/authz/evaluates
+        for runtime decisions.
+      properties:
+        expressions:
+          type: array
+          description: CEL expressions referencing runtime attributes (e.g. resource.environment)
+          items:
+            type: string
+          example:
+            - resource.environment == "dev"
+            - resource.environment == "staging"
 
     UserCapabilitiesResponse:
       type: object

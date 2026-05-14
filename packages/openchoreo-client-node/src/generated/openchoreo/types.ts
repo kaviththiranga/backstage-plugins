@@ -4633,10 +4633,18 @@ export interface components {
        * @example namespace/acme/project/payment
        */
       path?: string;
-      /** @description Additional instance-level restrictions */
-      constraints?: {
-        [key: string]: unknown;
-      };
+      constraints?: components['schemas']['CapabilityConstraints'];
+    };
+    /** @description ABAC constraints that gate access to the resource. Multiple expressions are OR'd — access is granted when any one of them evaluates to true. Clients that cannot evaluate CEL must delegate to POST /api/v1/authz/evaluates for runtime decisions. */
+    CapabilityConstraints: {
+      /**
+       * @description CEL expressions referencing runtime attributes (e.g. resource.environment)
+       * @example [
+       *       "resource.environment == \"dev\"",
+       *       "resource.environment == \"staging\""
+       *     ]
+       */
+      expressions?: string[];
     };
     /** @description User authorization profile response */
     UserCapabilitiesResponse: {

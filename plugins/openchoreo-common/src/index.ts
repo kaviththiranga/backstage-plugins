@@ -199,6 +199,7 @@ export type {
   SubjectContext,
   ActionCapability,
   CapabilityResource,
+  CapabilityConstraints,
   ReleaseResponse,
   ReleaseSpec,
   ReleaseStatus,
