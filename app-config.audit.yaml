@@ -1,0 +1,16 @@
+# Overlay applied on top of app-config.yaml + app-config.local.yaml during
+# the accessibility audit run. Disables OAuth so Playwright can crawl
+# every authenticated route without scripting an IDP redirect. The
+# DynamicSignInPage in packages/app/src/App.tsx auto-signs the guest user
+# when openchoreo.features.auth.enabled is false. The SignInPage itself
+# is audited separately via Chrome DevTools MCP in Phase C.
+#
+# Loaded with: yarn start --config app-config.yaml --config app-config.local.yaml --config app-config.audit.yaml
+# (or pass via OPENCHOREO_FEATURES_AUTH_ENABLED=false if local overlay
+# is excluded).
+openchoreo:
+  features:
+    auth:
+      enabled: false
+    authz:
+      enabled: false
