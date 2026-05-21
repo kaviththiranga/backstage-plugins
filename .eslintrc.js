@@ -44,5 +44,10 @@ module.exports = {
         'no-restricted-syntax': ['error', ...colorLiteralRules],
       },
     },
+    // Note: jsx-a11y lint rules are wired into each frontend workspace's
+    // own .eslintrc.js (via eslint-a11y-rules.js at repo root). Per-package
+    // configs built from @backstage/cli/config/eslint-factory do not inherit
+    // from this root file, so rules placed here would be silently ignored
+    // by `backstage-cli repo lint`.
   ],
 };
