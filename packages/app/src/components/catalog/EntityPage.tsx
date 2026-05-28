@@ -300,13 +300,12 @@ function OverviewContent() {
         </EntitySwitch.Case>
         <EntitySwitch.Case>
           <Grid item md={6} xs={12}>
-            <EntityAboutCard variant="gridItem" />
+            <EntityAboutCard />
           </Grid>
         </EntitySwitch.Case>
       </EntitySwitch>
       <Grid item md={6} xs={12}>
         <EntityCatalogGraphCard
-          variant="gridItem"
           height={400}
           renderNode={CustomGraphNode}
         />
@@ -580,7 +579,6 @@ const apiPage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -604,10 +602,10 @@ const userPage = (
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid item xs={12} md={6}>
-          <EntityUserProfileCard variant="gridItem" />
+          <EntityUserProfileCard />
         </Grid>
         <Grid item xs={12} md={6}>
-          <EntityOwnershipCard variant="gridItem" />
+          <EntityOwnershipCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
@@ -620,10 +618,10 @@ const groupPage = (
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid item xs={12} md={6}>
-          <EntityGroupProfileCard variant="gridItem" />
+          <EntityGroupProfileCard />
         </Grid>
         <Grid item xs={12} md={6}>
-          <EntityOwnershipCard variant="gridItem" />
+          <EntityOwnershipCard />
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityMembersListCard />
@@ -660,7 +658,6 @@ const systemPage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -675,7 +672,6 @@ const systemPage = (
     </EntityLayout.Route>
     <EntityLayout.Route path="/diagram" title="Diagram">
       <EntityCatalogGraphCard
-        variant="gridItem"
         direction={Direction.TOP_BOTTOM}
         title="System Diagram"
         height={700}
@@ -743,7 +739,6 @@ const domainPage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={500}
             zoom="enabled"
             maxDepth={1}
@@ -764,11 +759,10 @@ const defaultResourcePage = (
       <Grid container spacing={3} alignItems="stretch">
         {entityWarningContent}
         <Grid item md={6}>
-          <EntityAboutCard variant="gridItem" />
+          <EntityAboutCard />
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -777,7 +771,7 @@ const defaultResourcePage = (
           <EntityLinksCard />
         </Grid>
         <Grid item md={8}>
-          <EntityHasComponentsCard variant="gridItem" />
+          <EntityHasComponentsCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
@@ -808,7 +802,6 @@ const openchoreoResourcePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -862,7 +855,6 @@ const environmentPage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             relations={[
               RELATION_PART_OF,
@@ -908,7 +900,6 @@ const dataplanePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             relations={[
               RELATION_PART_OF,
@@ -951,7 +942,6 @@ const clusterDataplanePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             relations={[
               RELATION_HOSTED_ON,
@@ -984,7 +974,6 @@ const workflowPlanePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             relations={[
               RELATION_PART_OF,
@@ -1019,7 +1008,6 @@ const clusterWorkflowPlanePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             relations={[
               RELATION_OBSERVED_BY,
@@ -1062,7 +1050,6 @@ const observabilityPlanePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             relations={[
               RELATION_PART_OF,
@@ -1100,7 +1087,6 @@ const clusterObservabilityPlanePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             relations={[RELATION_OBSERVED_BY, RELATION_OBSERVES]}
             renderNode={CustomGraphNode}
@@ -1135,7 +1121,6 @@ const deploymentPipelinePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             relations={[
               RELATION_PART_OF,
@@ -1169,7 +1154,6 @@ const componentTypePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -1195,7 +1179,6 @@ const resourceTypePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -1224,7 +1207,6 @@ const traitTypePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -1250,7 +1232,6 @@ const clusterComponentTypePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -1276,7 +1257,6 @@ const clusterResourceTypePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -1302,7 +1282,6 @@ const clusterTraitTypePage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -1331,7 +1310,6 @@ const workflowPage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -1366,7 +1344,6 @@ const clusterWorkflowPage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             renderNode={CustomGraphNode}
           />
@@ -1404,7 +1381,6 @@ const componentWorkflowPage = (
         </Grid>
         <Grid item md={6} xs={12}>
           <EntityCatalogGraphCard
-            variant="gridItem"
             height={400}
             relations={[
               RELATION_PART_OF,
